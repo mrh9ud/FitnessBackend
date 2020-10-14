@@ -1,6 +1,8 @@
 class Api::V1::AuthController < ApplicationController
     def create
-        byebug
-        puts 'testing login'
+        user = User.find_by(username: params[:username])
+        if user
+            render json: user
+        end
     end
 end
