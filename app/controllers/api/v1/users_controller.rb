@@ -1,8 +1,4 @@
 class Api::V1::UsersController < ApplicationController
-    def index
-        render json: User.all
-    end
-
     def create
         @user = User.create(user_params)
         if @user.valid?
@@ -10,6 +6,14 @@ class Api::V1::UsersController < ApplicationController
         else
             render json: { error: 'failed to create user' }, status: :not_acceptable
         end
+    end
+
+    def profile
+        token = request.headers["Authentication"]
+        payload = decode(token)
+        user = User.find(payload["user_id"])
+
+        render json: user
     end
 
     private
