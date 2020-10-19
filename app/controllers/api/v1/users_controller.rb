@@ -8,7 +8,12 @@ class Api::V1::UsersController < ApplicationController
                 currentUser: user.as_json(except: [:updated_at, :created_at, :password_digest])
             }, status: :created
         else
-            render json: { error: "form inputs unable to validate; user creation failed" }, status: :not_acceptable
+            error_messages = {}
+            user.errors.messages.each do |message|
+                print "attribute: #{message[0]}; message: #{message[1][0]} "
+                error_messages['message'] = message[1][0]
+            end
+            render json: { error: true, message: error_messages }, status: :not_acceptable
         end
     end
 
@@ -16,7 +21,7 @@ class Api::V1::UsersController < ApplicationController
         token = request.headers["Authentication"]
         payload = decode(token)
         user = User.find(payload["user_id"])
-        render json: user
+        render json: user.as_json(except: [:updated_at, :created_at, :password_digest])
     end
 
     private
