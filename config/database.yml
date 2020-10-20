@@ -23,8 +23,6 @@ default: &default
 
 development:
   <<: *default
-  username: username
-  password: password
   database: fitnessbackend_development
 
   # The specified database role being used to connect to postgres.
