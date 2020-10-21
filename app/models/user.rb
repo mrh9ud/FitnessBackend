@@ -1,5 +1,7 @@
 class User < ApplicationRecord
   has_secure_password
+  before_create :confirmation_token
+
   validates :username, uniqueness: { case_sensitive: false, message: "Username %{value} is already taken", on: :create }
   validates :username, presence: { message: "Username must be present" }, on: :create
   validates :username, length: { in: 4..12, message: "Username must be between 4 and 12 characters" }
@@ -11,4 +13,18 @@ class User < ApplicationRecord
   validates :last_name, length: { in: 2..20, message: "Last name must be between 2 and 20 characters" }, on: :create
   validates :email, presence: { message: "Email must be present" }, on: :create
   validates :email, format: { with: /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/, multiline: true, on: :create }
+
+  def activate_email
+    self.email_confirmed = true
+    self.confirm_token = nil
+  end
+  
+  private
+
+  def confirmation_token
+    if self.confirm_token.blank?
+        self.confirm_token = SecureRandom.urlsafe_base64.to_s
+    end
+  end
+
 end

@@ -1,0 +1,3 @@
+<h1>Hello <%=@user.first_name%></h1>
+<p>Click the link below to sign up</p>
+<a href=<%=confirm_email_api_v1_user_url(@user.confirm_token)%>>Click Meh!</a>
