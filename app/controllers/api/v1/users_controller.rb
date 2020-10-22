@@ -17,9 +17,8 @@ class Api::V1::UsersController < ApplicationController
 
   def update
     user = User.find(params[:id])
-    user.update(user_params)
-    if user.valid?
-      render json: user.as_json(except: [:updated_at, :created_at, :password_digest]), status: :accepted
+    if user.update(user_params)
+      render json: user.as_json(except: [:updated_at, :created_at, :password_digest, :email_confirmed, :confirm_token]), status: :accepted
     else
       error_messages = {}
       user.errors.messages.each do |message|
@@ -43,7 +42,7 @@ class Api::V1::UsersController < ApplicationController
     token = request.headers["Authentication"]
     payload = decode(token)
     user = User.find(payload["user_id"])
-    render json: user.as_json(except: [:updated_at, :created_at, :password_digest])
+    render json: user.as_json(except: [:updated_at, :created_at, :password_digest, :email_confirmed, :confirm_token])
   end
 
   private

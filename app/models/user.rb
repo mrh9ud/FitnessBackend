@@ -7,8 +7,8 @@ class User < ApplicationRecord
   validates :username, uniqueness: { case_sensitive: false, message: "Username %{value} is already taken", on: [:create, :update] }
   validates :username, presence: { message: "Username must be present" }, on: [:create, :update]
   validates :username, length: { in: 4..12, message: "Username must be between 4 and 12 characters" }
-  validates :password, presence: { message: "Password must be present" }, on: [:update, :create]
-  validates :password, length: { in: 6..25, message: "Password must be between 6 and 25 characters" }
+  validates :password, presence: { message: "Password must be present" }, on: :create
+  validates :password, length: { in: 6..25, message: "Password must be between 6 and 25 characters" }, on: :create
   validates :first_name, presence: { message: "First name must be present" }, on: [:update, :create]
   validates :first_name, length: { in: 2..15, message: "First name must be between 2 and 15 characters" }, on: [:update, :create]
   validates :last_name, presence: { message: "Last name must be present" }, on: [:update, :create]
