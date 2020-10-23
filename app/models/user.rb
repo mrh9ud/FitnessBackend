@@ -20,8 +20,6 @@ class User < ApplicationRecord
     self.email_confirmed = true
     self.confirm_token = nil
   end
-  
-  private
 
   def confirmation_token
     if self.confirm_token.blank?

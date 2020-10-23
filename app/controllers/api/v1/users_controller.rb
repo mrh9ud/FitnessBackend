@@ -18,7 +18,7 @@ class Api::V1::UsersController < ApplicationController
   def update
     user = User.find(params[:id])
     if user.update(user_params)
-      render json: user.as_json(except: [:updated_at, :created_at, :password_digest, :email_confirmed, :confirm_token]), status: :accepted
+      render json: user.as_json(only: [:id, :username, :first_name, :last_name, :email]), status: :accepted
     else
       error_messages = {}
       user.errors.messages.each do |message|
@@ -42,12 +42,35 @@ class Api::V1::UsersController < ApplicationController
     token = request.headers["Authentication"]
     payload = decode(token)
     user = User.find(payload["user_id"])
-    render json: user.as_json(except: [:updated_at, :created_at, :password_digest, :email_confirmed, :confirm_token])
+    render json: user.as_json(only: [:id, :username, :first_name, :last_name, :email]), status: :accepted
+  end
+ 
+  def reset_password
+    user = User.find_by(username: params[:user][:username])
+    if user
+      seconds_since_reset_email = Time.now.utc - user.reset_password_sent_at
+      if (seconds_since_reset_email / 1.hour) > 2
+        render json: { error: true, message: "Your recovery token has expired (over 2 hours have passed). Would you like us to send you a new temporary password?" }
+      else
+        if user.update(user_params)
+          user.update(confirm_token: nil, resetting_password: false, reset_password_sent_at: nil)
+          token = encode({ user_id: user.id })
+          render json: {
+            user: user.as_json(only: [:id, :username, :first_name, :last_name, :email]),
+            jwt: token
+          }, status: :accepted
+        else
+          render json: { error: true, message: "unable to set new password" }
+        end
+      end
+    else
+      render json: { error: true, message: "username not found" }
+    end
   end
 
   private
 
   def user_params
-    params.require(:user).permit(:username, :password, :first_name, :last_name, :email, :email_confirmed)
+    params.require(:user).permit(:id, :username, :password, :first_name, :last_name, :email, :email_confirmed)
   end
 end

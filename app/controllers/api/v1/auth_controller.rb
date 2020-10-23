@@ -10,7 +10,7 @@ class Api::V1::AuthController < ApplicationController
          elsif user.authenticate(params[:password])
             token = encode(user_id: user.id)
             render json: {
-               user: user.as_json(except: [:updated_at, :created_at, :password_digest, :email_confirmed, :confirm_token]),
+               user: user.as_json(only: [:id, :username, :first_name, :last_name, :email, :resetting_password]),
                jwt: token
             }, status: :accepted
          else
@@ -26,6 +26,34 @@ class Api::V1::AuthController < ApplicationController
             message: "Invalid Username"
          }, status: :bad_request
       end
+   end
 
+   def verify_email_username
+      @user = User.find_by(username: params[:user][:username])
+      if @user
+         if @user.email == params[:user][:email]
+            @temporary_password = SecureRandom.urlsafe_base64.to_s
+            reset_password_time = Time.now.utc
+            token = @user.confirmation_token
+            @user.update(
+               password: @temporary_password, 
+               resetting_password: true,
+               reset_password_sent_at: reset_password_time,
+               confirm_token: token
+            )
+            UserMailer.with(user: @user, temp_pass: @temporary_password).forgot_password.deliver_now
+            render json: { message: "Check your email for your temporary password"}
+         else
+            render json: {
+               error: true,
+               message: "Email does not match account"
+            }
+         end
+      else
+         render json: {
+            error: true,
+            message: "Username not found"
+         }
+      end
    end
 end

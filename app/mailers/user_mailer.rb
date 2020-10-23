@@ -3,4 +3,10 @@ class UserMailer < ApplicationMailer
         @user = params[:user]
         mail(to: "#{@user.email}", subject: "Register Your Account")
     end
+
+    def forgot_password
+        @user = params[:user]
+        @temporary_password = params[:temp_pass]
+        mail(to: "#{@user.email}", subject: "Resetting Your Password")
+    end
 end

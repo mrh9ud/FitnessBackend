@@ -12,8 +12,8 @@ Rails.application.routes.draw do
       resources :users, only: [:create, :update]
         post '/login', to: 'auth#create'
         get '/profile', to: 'users#profile'
+        post '/verify_email_username', to: 'auth#verify_email_username'
+        post '/reset_password', to: 'users#reset_password'
     end
   end
-
-
 end
