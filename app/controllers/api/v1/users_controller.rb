@@ -50,7 +50,11 @@ class Api::V1::UsersController < ApplicationController
     if user
       seconds_since_reset_email = Time.now.utc - user.reset_password_sent_at
       if (seconds_since_reset_email / 1.hour) > 2
-        render json: { error: true, message: "Your recovery token has expired (over 2 hours have passed). Would you like us to send you a new temporary password?" }
+        render json: { 
+          expired: true, 
+          user_data: { username: user.username, email: user.email },
+          message: "Your recovery token has expired (over 2 hours have passed). Would you like us to send you a new temporary password?" 
+        }
       else
         if user.update(user_params)
           user.update(confirm_token: nil, resetting_password: false, reset_password_sent_at: nil)

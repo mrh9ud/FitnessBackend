@@ -27,7 +27,7 @@ module Fitnessbackend
     config.load_defaults 6.0
 
     config.action_mailer.delivery_method = :smtp
-    host = "10.0.0.70:3000"
+    host = "10.0.0.68:3000"
     config.action_mailer.default_url_options = { host: host, protocol: 'http' }
     config.action_mailer.raise_delivery_errors = true
     config.action_mailer.perform_deliveries = true
