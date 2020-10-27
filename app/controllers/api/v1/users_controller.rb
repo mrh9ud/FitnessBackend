@@ -72,6 +72,17 @@ class Api::V1::UsersController < ApplicationController
     end
   end
 
+  def change_password
+    @user = User.find(params[:user][:id])
+    if @user
+      @user.update(password: params[:user][:password])
+      UserMailer.with(user: @user).changed_password.deliver_now
+      render json: { error: false, message: "Your password has been successfully changed." }, status: :accepted
+    else
+      render json: { error: true, message: "User not found. Try again."}
+    end
+  end
+
   private
 
   def user_params
