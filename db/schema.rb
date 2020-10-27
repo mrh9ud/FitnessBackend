@@ -10,10 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_10_23_154909) do
+ActiveRecord::Schema.define(version: 2020_10_27_204448) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "exercises", force: :cascade do |t|
+    t.string "name"
+    t.string "difficulty"
+    t.integer "duration"
+    t.string "instructions"
+    t.string "type"
+    t.string "video_url"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
 
   create_table "user_workouts", force: :cascade do |t|
     t.bigint "user_id", null: false
@@ -39,6 +50,15 @@ ActiveRecord::Schema.define(version: 2020_10_23_154909) do
     t.boolean "resetting_password", default: false
   end
 
+  create_table "workout_exercises", force: :cascade do |t|
+    t.bigint "exercise_id", null: false
+    t.bigint "workout_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["exercise_id"], name: "index_workout_exercises_on_exercise_id"
+    t.index ["workout_id"], name: "index_workout_exercises_on_workout_id"
+  end
+
   create_table "workouts", force: :cascade do |t|
     t.boolean "strength"
     t.boolean "cardio"
@@ -50,4 +70,6 @@ ActiveRecord::Schema.define(version: 2020_10_23_154909) do
 
   add_foreign_key "user_workouts", "users"
   add_foreign_key "user_workouts", "workouts"
+  add_foreign_key "workout_exercises", "exercises"
+  add_foreign_key "workout_exercises", "workouts"
 end
