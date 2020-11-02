@@ -12,4 +12,26 @@ class Exercise < ApplicationRecord
     validates :instructions, presence: { message: "An exercise must include general instructions." }, on: [:create, :update]
     validates :focus, inclusion: { in: %w(cardio strength flexibility str_cardio str_flex), message: "%{value} is not a valid exercise focus. Must be cardio, strength, flexibility, or a combination.", on: [:create, :update] }
     validates :focus, presence: { message: "An exercise must include a focus of strength, cardio, flexibility, or a combination." }
+
+    def self.str_exercises
+        Exercise.where(focus: 'strength')
+    end
+
+    def self.str_cardio_exercises
+        Exercise.where(focus: 'str_cardio')
+    end
+
+    def self.cardio_exercises
+        Exercise.where(focus: 'cardio')
+    end
+
+    def self.flexibility_exercises
+        Exercise.where(focus: 'flexibility')
+    end
+
+    def self.str_flex_exercises
+        Exercise.where(focus: 'str_flex')
+    end
+
+    
 end
