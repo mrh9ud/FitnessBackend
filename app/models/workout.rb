@@ -15,6 +15,7 @@ class Workout < ApplicationRecord
     end
 
     def self.exercises_filtered_by_difficulty(workouts, difficulty)
-        workouts.where(difficulty: difficulty)
+        filtered_workouts = workouts.where(difficulty: difficulty)
+        filtered_workouts[0,6]
     end
 end
