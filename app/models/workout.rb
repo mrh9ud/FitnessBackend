@@ -15,7 +15,12 @@ class Workout < ApplicationRecord
     end
 
     def self.exercises_filtered_by_difficulty(workouts, difficulty)
-        filtered_workouts = workouts.where(difficulty: difficulty)
-        filtered_workouts[0,6]
+        workout_hash = {}
+        potential_exercises = workouts.where(difficulty: difficulty)
+        current_exercises = potential_exercises.sample(6)
+        workout_hash[:current_exercises] = current_exercises
+        workout_hash[:potential_exercises] = potential_exercises
+        workout_hash[:already_cycled_exercises] = []
+        workout_hash
     end
 end

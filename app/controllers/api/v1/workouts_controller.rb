@@ -7,9 +7,9 @@ class Api::V1::WorkoutsController < ApplicationController
 
     def generate_potential_workout
         focus_output = Workout.exercises_by_focus(workout_params)
-        difficulty_output = Workout.exercises_filtered_by_difficulty(focus_output, params[:workout][:difficulty])
-        if difficulty_output
-            render json: difficulty_output.as_json(except: [:created_at, :updated_at])
+        workout_hash = Workout.exercises_filtered_by_difficulty(focus_output, params[:workout][:difficulty])
+        if workout_hash
+            render json: workout_hash.as_json(except: [:created_at, :updated_at])
         else
             render json: { error: true, message: "Server error in generating workout" }
         end
