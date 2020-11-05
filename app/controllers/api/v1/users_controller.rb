@@ -42,19 +42,11 @@ class Api::V1::UsersController < ApplicationController
     token = request.headers["Authentication"]
     payload = decode(token)
     user = User.find(payload["user_id"])
-    render json: {
-      user: user.to_json(
-         only: [:id, :username, :first_name, :last_name, :email, :resetting_password],
-         include: [
-            workouts: {
-               except: :updated_at,
-               include: [
-                  exercises: { except: [:created_at, :updated_at] }
-               ]
-            }
-         ]
+    render json: 
+      user.as_json(
+      only: [:id, :username, :first_name, :last_name, :email, :resetting_password],
+      include: [ workouts: { except: [ :updated_at ] } ] 
       )
-    }, status: :accepted
   end
  
   def reset_password
