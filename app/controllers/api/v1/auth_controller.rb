@@ -10,17 +10,8 @@ class Api::V1::AuthController < ApplicationController
          elsif user.authenticate(params[:password])
             token = encode(user_id: user.id)
             render json: {
-               user: user.to_json(
-                  only: [:id, :username, :first_name, :last_name, :email, :resetting_password],
-                  include: [
-                     workouts: {
-                        except: :updated_at,
-                        include: [
-                           exercises: { except: [:created_at, :updated_at] }
-                        ]
-                     }
-                  ]
-               ),
+               user: { id: user.id, username: user.username, first_name: user.first_name, last_name: user.last_name, email: user.email, resetting_password: user.resetting_password},
+               workouts: user.workouts,
                jwt: token
             }, status: :accepted
          else

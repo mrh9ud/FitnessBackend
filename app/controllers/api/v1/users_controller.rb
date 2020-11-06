@@ -18,7 +18,10 @@ class Api::V1::UsersController < ApplicationController
   def update
     user = User.find(params[:id])
     if user.update(user_params)
-      render json: user.as_json(only: [:id, :username, :first_name, :last_name, :email]), status: :accepted
+      render json: {
+        user: { id: user.id, username: user.username, first_name: user.first_name, last_name: user.last_name, email: user.email },
+        workouts: user.workouts
+      }, status: :accepted
     else
       error_messages = {}
       user.errors.messages.each do |message|
@@ -42,11 +45,10 @@ class Api::V1::UsersController < ApplicationController
     token = request.headers["Authentication"]
     payload = decode(token)
     user = User.find(payload["user_id"])
-    render json: 
-      user.as_json(
-      only: [:id, :username, :first_name, :last_name, :email, :resetting_password],
-      include: [ workouts: { except: [ :updated_at ] } ] 
-      )
+    render json: {
+      user: { id: user.id, username: user.username, first_name: user.first_name, last_name: user.last_name, email: user.email, resetting_password: user.resetting_password},
+      workouts: user.workouts
+    }, status: :accepted
   end
  
   def reset_password
@@ -64,19 +66,10 @@ class Api::V1::UsersController < ApplicationController
           user.update(confirm_token: nil, resetting_password: false, reset_password_sent_at: nil)
           token = encode({ user_id: user.id })
           render json: {
-            user: user.to_json(
-               only: [:id, :username, :first_name, :last_name, :email, :resetting_password],
-               include: [
-                  workouts: {
-                     except: :updated_at,
-                     include: [
-                        exercises: { except: [:created_at, :updated_at] }
-                     ]
-                  }
-               ]
-            ),
+            user: { id: user.id, username: user.username, first_name: user.first_name, last_name: user.last_name, email: user.email, resetting_password: user.resetting_password},
+            workouts: user.workouts,
             jwt: token
-         }, status: :accepted
+          }, status: :accepted
         else
           render json: { error: true, message: "unable to set new password" }
         end
