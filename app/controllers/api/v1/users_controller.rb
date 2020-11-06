@@ -4,7 +4,7 @@ class Api::V1::UsersController < ApplicationController
     if @user.valid?
       token = encode({ user_id: @user.id })
       UserMailer.with(user: @user).registration_confirmation.deliver_now
-      render json: { message: "Please confirm your email address to continue" }
+      render json: { email_confirmed: @user.email_confirmed, message: "Please confirm your email address to continue" }
     else
       error_messages = {}
       @user.errors.messages.each do |message|
