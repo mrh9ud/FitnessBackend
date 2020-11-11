@@ -23,4 +23,24 @@ class Workout < ApplicationRecord
         workout_hash[:already_cycled_exercises] = []
         workout_hash
     end
+
+    def self.workout_info_to_display(id, workout_params, user_workout)
+        workout_hash = {}
+        workout_hash[:id] = id
+        workout_hash.merge!(workout_params)
+        workout_hash[:completed] = user_workout.completed
+        workout_hash[:exercises] = self.find(id).exercises
+        workout_hash
+    end
+
+    def self.find_workout_exercises(workouts_arr, id)
+        result = workouts_arr.map do |workout|
+            workout_hash = {}
+            workout_hash[:id] = workout.id
+            workout_hash[:completed] = workout.user_workouts.find_by(user_id: id).completed
+            workout_hash[:exercises] = workout.exercises
+            workout_hash
+        end
+        result
+    end
 end
