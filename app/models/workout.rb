@@ -37,6 +37,11 @@ class Workout < ApplicationRecord
         result = workouts_arr.map do |workout|
             workout_hash = {}
             workout_hash[:id] = workout.id
+            workout_hash[:difficulty] = workout.difficulty
+            workout_hash[:duration] = workout.duration
+            workout_hash[:strength] = workout.strength
+            workout_hash[:cardio] = workout.cardio
+            workout_hash[:flexibility] = workout.flexibility
             workout_hash[:completed] = workout.user_workouts.find_by(user_id: id).completed
             workout_hash[:exercises] = workout.exercises
             workout_hash
