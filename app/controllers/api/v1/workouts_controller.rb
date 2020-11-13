@@ -1,4 +1,5 @@
 class Api::V1::WorkoutsController < ApplicationController
+  
   def create
     workout = Workout.create(workout_params)
     exercises = params[:exercises]
@@ -13,7 +14,7 @@ class Api::V1::WorkoutsController < ApplicationController
       render json: { error: true, message: "Server Error: Couldn't Create Workout" }
     end
   end
-
+  
   def update
     workout = Workout.find(workout_params[:id])
     if workout && workout.update(name: workout_params[:name])
@@ -22,7 +23,7 @@ class Api::V1::WorkoutsController < ApplicationController
       render json: { error: true, message: "Unable to update workout name or find workout" }
     end
   end
-
+  
   def generate_potential_workout
     focus_output = Workout.exercises_by_focus(workout_params)
     workout_hash = Workout.exercises_filtered_by_difficulty(focus_output, params[:workout][:difficulty])
@@ -31,6 +32,26 @@ class Api::V1::WorkoutsController < ApplicationController
     else
       render json: { error: true, message: "Server error in generating workout" }
     end
+  end
+  
+  def swap_workout_exercise
+    workout = Workout.find(workout_params[:id])
+    exercises_focus_filtered = Workout.exercises_by_focus(workout)
+    potential_exercises = exercises_focus_filtered.where(difficulty: workout[:difficulty])
+    filtered_potential_exercises = potential_exercises.filter do |exercise|
+      if exercise.id != params[:workout][:exerciseId]
+        exercise
+      end
+    end
+    new_exercise = filtered_potential_exercises.sample()
+    join_to_delete = WorkoutExercise.where(exercise_id: params[:workout][:exerciseId], workout_id: workout.id)
+    WorkoutExercise.delete(join_to_delete[0].id)
+    WorkoutExercise.create(workout_id: workout.id, exercise_id: new_exercise.id)
+    render json: { 
+      workout_id: workout.id,
+      old_exercise_id: params[:workout][:exerciseId],  
+      exercise: new_exercise
+    }
   end
 
   private
