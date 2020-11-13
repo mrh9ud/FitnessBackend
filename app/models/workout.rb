@@ -4,6 +4,9 @@ class Workout < ApplicationRecord
     has_many :workout_exercises
     has_many :exercises, through: :workout_exercises
 
+    validates :name, presence: { message: "Workout name must be present."}, on: [:create, :update]
+    validates :name, length: { in: 3..30, message: "Workout name must be between 3 and 30 characters." }
+
     def self.exercises_by_focus(workout_params)
         if workout_params[:strength] && workout_params[:cardio]
             potential_exercises = Exercise.str_cardio_exercises
@@ -37,6 +40,7 @@ class Workout < ApplicationRecord
         result = workouts_arr.map do |workout|
             workout_hash = {}
             workout_hash[:id] = workout.id
+            workout_hash[:name] = workout.name
             workout_hash[:difficulty] = workout.difficulty
             workout_hash[:duration] = workout.duration
             workout_hash[:strength] = workout.strength

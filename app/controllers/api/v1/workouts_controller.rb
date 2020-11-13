@@ -14,6 +14,15 @@ class Api::V1::WorkoutsController < ApplicationController
     end
   end
 
+  def update
+    workout = Workout.find(workout_params[:id])
+    if workout && workout.update(name: workout_params[:name])
+      render json: workout.to_json( except: [:updated_at, :created_at])
+    else
+      render json: { error: true, message: "Unable to update workout name or find workout" }
+    end
+  end
+
   def generate_potential_workout
     focus_output = Workout.exercises_by_focus(workout_params)
     workout_hash = Workout.exercises_filtered_by_difficulty(focus_output, params[:workout][:difficulty])
@@ -27,6 +36,6 @@ class Api::V1::WorkoutsController < ApplicationController
   private
 
   def workout_params
-    params.require(:workout).permit(:id, :strength, :flexibility, :cardio, :duration, :difficulty)
+    params.require(:workout).permit(:id, :name, :strength, :flexibility, :cardio, :duration, :difficulty)
   end
 end
