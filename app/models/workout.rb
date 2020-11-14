@@ -1,8 +1,8 @@
 class Workout < ApplicationRecord
     has_many :user_workouts
-    has_many :users, through: :user_workouts
+    has_many :users, through: :user_workouts, dependent: :destroy
     has_many :workout_exercises
-    has_many :exercises, through: :workout_exercises
+    has_many :exercises, through: :workout_exercises, dependent: :destroy
 
     validates :name, presence: { message: "Workout name must be present."}, on: [:create, :update]
     validates :name, length: { in: 3..30, message: "Workout name must be between 3 and 30 characters." }

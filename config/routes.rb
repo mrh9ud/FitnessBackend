@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   resources :exercises
   namespace :api do
     namespace :v1 do
-      resources :workouts, only: [:create, :update]
+      resources :workouts, only: [:create, :update, :destroy]
         post '/swap_workout_exercise', to: 'workouts#swap_workout_exercise'
         post '/generate_potential_workout', to: 'workouts#generate_potential_workout'
 

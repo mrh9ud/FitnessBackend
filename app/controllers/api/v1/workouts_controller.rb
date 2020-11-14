@@ -54,6 +54,14 @@ class Api::V1::WorkoutsController < ApplicationController
     }
   end
 
+  def destroy
+    if Workout.destroy(params[:id])
+      render json: { id: params[:id] }
+    else
+      render json: { error: true, message: "Unable to delete workout" }
+    end
+  end
+
   private
 
   def workout_params
