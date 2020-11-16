@@ -37,12 +37,7 @@ class Api::V1::WorkoutsController < ApplicationController
   def swap_workout_exercise
     workout = Workout.find(workout_params[:id])
     exercises_focus_filtered = Workout.exercises_by_focus(workout)
-    potential_exercises = exercises_focus_filtered.where(difficulty: workout[:difficulty])
-    filtered_potential_exercises = potential_exercises.filter do |exercise|
-      if exercise.id != params[:workout][:exerciseId]
-        exercise
-      end
-    end
+    filtered_potential_exercises = exercises_focus_filtered.where(difficulty: workout[:difficulty]) - Workout.find(params[:workout][:id]).exercises
     new_exercise = filtered_potential_exercises.sample()
     join_to_delete = WorkoutExercise.where(exercise_id: params[:workout][:exerciseId], workout_id: workout.id)
     WorkoutExercise.delete(join_to_delete[0].id)
