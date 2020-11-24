@@ -1,6 +1,12 @@
 class Exercise < ApplicationRecord
     has_many :workout_exercises
     has_many :workouts, through: :workout_exercises
+    has_many :exercise_muscle_groups
+    has_many :muscle_groups, through: :exercise_muscle_groups
+    has_many :exercise_muscles
+    has_many :muscles, through: :exercise_muscles
+    has_many :exercise_sub_muscle_groups
+    has_many :sub_muscle_groups, through: :exercise_sub_muscle_groups
 
     validates :name, uniqueness: { case_sensitive: false, message: "The exercise %{value} already exists", on: [:create, :update] }
     validates :name, presence: { message: "Exercise name must be provided" }, on: [:create, :update]
@@ -32,6 +38,4 @@ class Exercise < ApplicationRecord
     def self.str_flex_exercises
         Exercise.where(focus: 'str_flex')
     end
-
-    
 end
