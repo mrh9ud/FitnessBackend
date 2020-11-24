@@ -10,10 +10,37 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_12_212719) do
+ActiveRecord::Schema.define(version: 2020_11_24_195243) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "exercise_muscle_groups", force: :cascade do |t|
+    t.bigint "exercise_id", null: false
+    t.bigint "muscle_group_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["exercise_id"], name: "index_exercise_muscle_groups_on_exercise_id"
+    t.index ["muscle_group_id"], name: "index_exercise_muscle_groups_on_muscle_group_id"
+  end
+
+  create_table "exercise_muscles", force: :cascade do |t|
+    t.bigint "exercise_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "muscle_id", null: false
+    t.index ["exercise_id"], name: "index_exercise_muscles_on_exercise_id"
+    t.index ["muscle_id"], name: "index_exercise_muscles_on_muscle_id"
+  end
+
+  create_table "exercise_sub_muscle_groups", force: :cascade do |t|
+    t.bigint "exercise_id", null: false
+    t.bigint "sub_muscle_group_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["exercise_id"], name: "index_exercise_sub_muscle_groups_on_exercise_id"
+    t.index ["sub_muscle_group_id"], name: "index_exercise_sub_muscle_groups_on_sub_muscle_group_id"
+  end
 
   create_table "exercises", force: :cascade do |t|
     t.string "name"
@@ -22,6 +49,24 @@ ActiveRecord::Schema.define(version: 2020_11_12_212719) do
     t.string "instructions"
     t.string "focus"
     t.string "video_url"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "muscle_groups", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "muscles", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "sub_muscle_groups", force: :cascade do |t|
+    t.string "name"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -70,6 +115,12 @@ ActiveRecord::Schema.define(version: 2020_11_12_212719) do
     t.string "name"
   end
 
+  add_foreign_key "exercise_muscle_groups", "exercises"
+  add_foreign_key "exercise_muscle_groups", "muscle_groups"
+  add_foreign_key "exercise_muscles", "exercises"
+  add_foreign_key "exercise_muscles", "muscles"
+  add_foreign_key "exercise_sub_muscle_groups", "exercises"
+  add_foreign_key "exercise_sub_muscle_groups", "sub_muscle_groups"
   add_foreign_key "user_workouts", "users"
   add_foreign_key "user_workouts", "workouts"
   add_foreign_key "workout_exercises", "exercises"

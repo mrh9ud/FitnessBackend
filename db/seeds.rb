@@ -226,6 +226,94 @@ exercises = [
     {name: "Jumping Lunge", difficulty: advanced, instructions: "Starting standing with feet shoulder-width apart. Jump your left leg forward and your right leg back into a lunge, with both knees at 90 degrees. Jump up and switch your legs in midair so that you land in a lunge with your right leg in front. Continue jumping back and forth, pausing as little as possible.", focus: cardio}
 ]
 
+muscle_groups = [
+    { name: "back" },
+    { name: "shoulders" },
+    { name: "chest" },
+    { name: "waist" },
+    { name: "legs" },
+    { name: "arms" }
+]
+
+sub_muscle_groups = [
+    { name: "upper back", muscle_group_id: 1 },
+    { name: "mid back", muscle_group_id: 1 },
+    { name: "lower back", muscle_group_id: 1 },
+    { name: "deltoids", muscle_group_id: 2 },
+    { name: "upper chest", muscle_group_id: 3 },
+    { name: "mid chest", muscle_group_id: 3 },
+    { name: "lower chest", muscle_group_id: 3 },
+    { name: "abdominals", muscle_group_id: 4 },
+    { name: "thighs", muscle_group_id: 5 },
+    { name: "calves", muscle_group_id: 5 },
+    { name: "hips", muscle_group_id: 5 }
+    { name: "upper arms", muscle_group_id: 6 },
+    { name: "forearms", muscle_group_id: 6 }
+]
+
+muscle_sub_muscle_groups = [
+
+]
+
+muscles = [
+    { name: "front deltoid" }, 
+    { name: "lateral deltoid" },
+    { name: "rear deltoid" },     
+    { name: "triceps" }, 
+    { name: "biceps" },
+    { name: "wrist flexor" }, 
+    { name: "wrist extensor" },
+    { name: "trapezius (traps)" },
+    { name: "latissimus dorsi (lats)" },
+    { name: "spinal erectors" },
+    { name: "pectoralis major" },
+    { name: "glutes" },
+    { name: "abductors" },
+    { name: "quadriceps" },
+    { name: "hamstrings" },
+    { name: "adductors" },
+    { name: "gastrocnemius" },
+    { name: "tibialis anterior" },
+    { name: "" },
+    { name: "" },
+    { name: "" },
+    { name: "" },
+    { name: "" },
+    { name: "" },
+    { name: "" },
+
+]
+
+UserWorkout.destroy_all
+WorkoutExercise.destroy_all
+ExerciseMuscle.destroy_all
+MuscleSubMuscleGroup.destroy_all
+Workout.destroy_all
+Exercise.destroy_all
+MuscleGroup.destroy_all
+SubMuscleGroup.destroy_all
+Muscle.destroy_all
+
 exercises.each do |exercise|
     Exercise.create(name: exercise[:name], difficulty: exercise[:difficulty], instructions: exercise[:instructions], focus: exercise[:focus])
+end
+
+muscle_groups.each do |muscle_group|
+    MuscleGroup.create(name: muscle_group[:name])
+end
+
+sub_muscle_groups.each do |sub_muscle_group|
+    SubMuscleGroup.create(name: sub_muscle_group[:name], muscle_group_id: [sub_muscle_group[:muscle_group_id]])
+end
+
+muscles.each do |muscle|
+    Muscle.create(name: muscle[:name])
+end
+
+exercise_muscles.each do |exercise_muscle|
+    ExerciseMuscle.create(exercise_id: exercise_muscle[:exercise_id], muscle_id: exercise_muscle[:muscle_id])
+end
+
+muscle_sub_muscle_groups.each do |muscle_sub_muscle_group|
+    MuscleSubMuscleGroup.create(muscle_id: muscle_sub_muscle_group[:muscle_id], sub_muscle_group_id: muscle_sub_muscle_group[:sub_muscle_group_id])
 end
