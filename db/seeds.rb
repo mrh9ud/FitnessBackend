@@ -47,7 +47,6 @@ exercises = [
     {name: 'Single-arm Cable Crossover', difficulty: intermediate, instructions: "Stand sideways to the stack and grip the stirrup with the inside of your hand. Take the tension and take a step back before moving forward into position, keeping feet slightly wider than shoulder width apart. Try to avoid leaning to far forward with this unilateral movement as stability may be compromised. Place your spare hand against your hip for stability. Pull your arm down in front of you forming an arc a foot or so in front of your midriff or in front of your chest if you’re performing a unilateral chest level crossover. Squeeze your pectoral at the end of the motion and return to the starting position. Ensure to keep your core engaged throughout the movement and breathe", focus: strength},
     {name: 'Tricep Dips', difficulty: beginner, instructions: "Grip the front edges of a chair or bench with your hand. Hover your butt just off and in front of the seat, feet flat, and legs bent so thighs are parallel to the floor. Straighten your arms. This is your start position. Lower your body toward the floor until your arms form 90-degree angles. Then, engage your triceps to press back to start.", focus: str_cardio},
     {name: 'Cable V-bar Pushdown', difficulty: intermediate, instructions: "Feet shoulder width apart, face a high pulley machine enabled with a V-bar attachment. Grasp the ends of the V-bar so that your palms are facing inward and your elbows are by your waist. This is your starting position. Keeping your body stationary, exhale as you lower the V-bar by completely extending your arms until they are straight down in front of you. Hold for a moment and then inhale as you slowly return the V-bar to the starting position.", focus: strength},
-    {name: 'Decline EZ-bar Skull Crusher', difficulty: advanced, instructions: "Position a loaded EZ bar by the head of a declined bench (15-30 degrees). Hook your feet firmly under the foot pads of the bench and lie supine (on your back). Grasp the EZ bar using a close pronated grip (palms facing away from you) and press it up over your chest until your arms are straight. Allow your arms to tilt backwards a little. Keeping your upper arms fixed, inhale as you flex your elbows and carefully lower the EZ bar toward your face in a circular motion. Exhale as you extend your elbows and return the EZ bar to the starting position.", focus: strength},
     {name: 'Dumbbell Floor Press', difficulty: intermediate, instructions: "Begin sitting on the floor in an upright position with your legs straight and the dumbbells vertically balanced on the floor. Pick up each dumbbell and set it high in your hip crease while maintaining a tight grip. Slowly lay back while keeping the dumbbells close to your chest and bend your knees to roughly 45 degrees and move your feet up slightly. Press the weights to full extension by contracting your triceps and chest. Slowly lower the weight until both elbows touch the floor then press both dumbbells back to the starting position. To complete the exercise, simply lower the weights to the ground in “controlled drop” fashion. It should be a smooth motion but not one requiring excessive effort or one that puts the shoulder under unnecessary risk.", focus: strength},
     {name: 'Weighted Tricep Dip', difficulty: advanced, instructions: "Grip the front edges of a chair or bench with your hand. Have a partner place an appropriate weight plate on your thighs. Hover your butt just off and in front of the seat, feet flat, and legs bent so thighs are parallel to the floor. Straighten your arms. This is your start position. Lower your body toward the floor until your arms form 90-degree angles. Then, engage your triceps to press back to start.", focus: strength},
     {name: 'EZ-bar Skull Crusher', difficulty: intermediate, instructions: "Select your desired weight and sit on the edge of a flat bench. To get into position, lay back and keep the bar close to your chest. Once you are supine, press the weight to lockout. Lower the weights towards your head by unlocking the elbows and allowing the ez bar to drop toward your forehead or just above. Once your forearms reach parallel or just below, reverse the movement by extending the elbows while flexing the triceps to lockout the weight.", focus: strength},
@@ -57,7 +56,7 @@ exercises = [
     {name: 'Triceps Pushdown - Rope Attachment', difficulty: intermediate, instructions: "Face high pulley and grasp rope attachment with clinched hands side by side (palms in). Position elbows to side. Extend arms down. Turn palms down at bottom. Return until forearm is close to upper arm and hands are in original position. Repeat.", focus: strength},
     {name: 'Incline EZ-bar Skull Crusher', difficulty: advanced, instructions: "Select your desired weight and sit on the edge of an adjustable bench set at 20-30 degrees. To get into position, lay back and keep the bar close to your chest. Once you are supine, press the weight to lockout. Unlock the elbows and allow the ez bar to drop toward your forehead or just above. Once your forearms reach parallel or just below, reverse the movement by extending the elbows while flexing the triceps to lockout the weight.", focus: strength},
     {name: 'Tricep Dumbbell Kickback', difficulty: beginner, instructions: "Set up for the tricep kickback by grabbing a flat bench and sitting a dumbbell on the left hand side at one end. Position yourself on the left side of the bench with your right knee and right hand resting on the bench. Using a neutral grip, pick up the dumbbell with your left hand. Keep your back straight and look forward. Tuck your left upper arm close to your torso and bend at the elbow, forming a 90 degree angle with your upper arm and forearm. This is the starting position. Moving only at the elbow, raise the dumbbell behind you until your arm is fully extended. Pause, and then lower the dumbbell back to the starting position.", focus: strength},
-    {name: 'Palms-up Wrist Curl Over Bench', difficulty: intermediate, instructions: "Start by picking up a dumbbell in each hand while kneeling over a bench. With your palms facing upwards flex each forearm by lifting and lowering the dumbbell with only your wrist. Exhale while raising your wrist. Inhale while lowering your wrist.", focus: strength},
+    {name: 'Palms-up Seated Barbell Wrist Curl', difficulty: intermediate, instructions: "Start by picking up a dumbbell in each hand while kneeling over a bench. With your palms facing upwards flex each forearm by lifting and lowering the dumbbell with only your wrist. Exhale while raising your wrist. Inhale while lowering your wrist.", focus: strength},
     {name: 'One-arm Overhead Dumbbell Extension', difficulty: beginner, instructions: "Brace core and begin with feet shoulder-width apart. Grab a dumbbell with one hand and position it behind head with elbow flexed to 90 degrees. The opposite hand should be placed firmly on hip. Contract tricep and press dumbbell upwards until arm becomes fully extended. Pause and return weight back to starting position.", focus: strength},
     {name: 'Barbell Overhead Shoulder Press', difficulty: beginner, instructions: "Stand with the bar on your front shoulders, and your hands next to your shoulders. Place your feet at shoulder-width. Press the bar over your head, until it’s balanced over your shoulders and mid-foot. Lock your elbows at the top, and shrug your shoulders to the ceiling.", focus: strength},
     {name: "Standing Lateral Dumbbell Flye", difficulty: beginner, instructions: "Stand up tall with your feet shoulder-width apart. Keep 1 dumbbell in each hand. Bring your arms up straight in front of you so they're at chest level, palms facing each other. Extend arms out to the sides, until your arms are extended. Bring them back to center.", focus: strength},
@@ -241,19 +240,18 @@ exercise_muscle_groups = [
 ]
 
 sub_muscle_groups = [
-    { name: "upper back" },
-    { name: "mid back" },
-    { name: "lower back" },
-    { name: "deltoids" },
-    { name: "upper chest" },
-    { name: "mid chest" },
-    { name: "lower chest" },
-    { name: "abdominals" },
-    { name: "thighs" },
-    { name: "calves" },
-    { name: "glutes" }
-    { name: "upper arms" },
-    { name: "forearms" }
+    {1 name: "upper back" },
+    {2 name: "mid back" },
+    {3 name: "lower back" },
+    {4 name: "deltoids" },
+    {5 name: "upper chest" },
+    {6 name: "lower chest" },
+    {7 name: "abdominals" },
+    {8 name: "thighs" },
+    {9 name: "calves" },
+    {10 name: "glutes" },
+    {11 name: "upper arms" },
+    {12 name: "forearms" }
 ]
 
 exercise_sub_muscle_groups = [
