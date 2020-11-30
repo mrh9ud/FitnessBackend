@@ -16,7 +16,7 @@ str_cardio = 'str_cardio'
 str_flex = 'str_flex'
 
 exercises = [
-    {name: 'Barbell Bench Press', difficulty: beginner, instructions: 'Setup. Lie on the flat bench with your eyes under the bar. Grab the bar. Put your pinky on the ring marks of your bar. Unrack. Take a big breath and unrack the bar by straightening your arms. Lower the bar. Lower it to your mid-chest while tucking your elbows 75°. Press.', focus: strength}, 
+    # {name: 'Barbell Bench Press', difficulty: beginner, instructions: 'Setup. Lie on the flat bench with your eyes under the bar. Grab the bar. Put your pinky on the ring marks of your bar. Unrack. Take a big breath and unrack the bar by straightening your arms. Lower the bar. Lower it to your mid-chest while tucking your elbows 75°. Press.', focus: strength}, 
     {name: 'Incline Barbell Bench Press', difficulty: intermediate, instructions: 'Lie flat on an incline bench at 45 degrees and set your hands just outside of shoulder width. Set your shoulder blades by pinching them together and driving them into the bench. Take a deep breath and allow your spotter to help you with the lift off in order to maintain tightness through your upper back. Let the weight settle and ensure your upper back remains tight after lift off. Inhale and allow the bar to descend slowly by unlocking the elbows. Lower the bar in a straight line to the base of the sternum (breastbone) and touch the chest. Push the bar back up in a straight line by pressing yourself into the bench, driving your feet into the floor for leg drive, and extending the elbows.', focus: strength},
     {name: 'Dumbbell Bench Press', difficulty: beginner, instructions: 'Pick up the dumbbells off the floor using a neutral grip (palms facing in). Position the ends of the dumbbells in your hip crease, and sit down on the bench. To get into position, lay back and keep the weights close to your chest. Once you are in position, take a deep breath, and press the dumbbells to lockout at the top. Slowly lower the dumbbells under control as far as comfortably possible (the handles should be about level with your chest). Contract the chest and push the dumbbells back up to the starting position.', focus: strength},
     {name: 'Dumbbell Flye', difficulty: beginner, instructions: 'Pick up the dumbbells off the floor using a neutral grip (palms facing in). Position the ends of the dumbbells in your hip crease, and sit down on the bench. To get into position, lay back and keep the weights close to your chest. Once you are in position, take a deep breath, and press the dumbbells to lockout at the top. Slowly lower the dumbbells under control as far as comfortably possible (the handles should be about level with your chest). Contract the chest and push the dumbbells back up to the starting position.', focus: strength},
@@ -227,31 +227,36 @@ exercises = [
 ]
 
 muscle_groups = [
-    { name: "back" },
-    { name: "shoulders" },
-    { name: "chest" },
-    { name: "waist" },
-    { name: "legs" },
-    { name: "arms" }
+    { 1 name: "back" },
+    { 2 name: "shoulders" },
+    { 3 name: "chest" },
+    { 4 name: "waist" },
+    { 5 name: "legs" },
+    { 6 name: "arms" },
+    { 7 name: "hips" }
+]
+
+exercise_muscle_groups = [
+
 ]
 
 sub_muscle_groups = [
-    { name: "upper back", muscle_group_id: 1 },
-    { name: "mid back", muscle_group_id: 1 },
-    { name: "lower back", muscle_group_id: 1 },
-    { name: "deltoids", muscle_group_id: 2 },
-    { name: "upper chest", muscle_group_id: 3 },
-    { name: "mid chest", muscle_group_id: 3 },
-    { name: "lower chest", muscle_group_id: 3 },
-    { name: "abdominals", muscle_group_id: 4 },
-    { name: "thighs", muscle_group_id: 5 },
-    { name: "calves", muscle_group_id: 5 },
-    { name: "hips", muscle_group_id: 5 }
-    { name: "upper arms", muscle_group_id: 6 },
-    { name: "forearms", muscle_group_id: 6 }
+    { name: "upper back" },
+    { name: "mid back" },
+    { name: "lower back" },
+    { name: "deltoids" },
+    { name: "upper chest" },
+    { name: "mid chest" },
+    { name: "lower chest" },
+    { name: "abdominals" },
+    { name: "thighs" },
+    { name: "calves" },
+    { name: "glutes" }
+    { name: "upper arms" },
+    { name: "forearms" }
 ]
 
-muscle_sub_muscle_groups = [
+exercise_sub_muscle_groups = [
 
 ]
 
@@ -274,20 +279,25 @@ muscles = [
     { name: "adductors" },
     { name: "gastrocnemius" },
     { name: "tibialis anterior" },
+    { name: "rectus abdominis" },
+    { name: "transverse abdominis" },
+    { name: "obliques" },
+    { name: "pectoralis major" },
+    { name: "pectoralis minor" },
+    { name: "serratus anterior" },
     { name: "" },
-    { name: "" },
-    { name: "" },
-    { name: "" },
-    { name: "" },
-    { name: "" },
-    { name: "" },
+
+]
+
+exercise_muscles = [
 
 ]
 
 UserWorkout.destroy_all
 WorkoutExercise.destroy_all
 ExerciseMuscle.destroy_all
-MuscleSubMuscleGroup.destroy_all
+ExerciseMuscleGroup.destroy_all
+ExerciseSubMuscleGroup.destroy_all
 Workout.destroy_all
 Exercise.destroy_all
 MuscleGroup.destroy_all
@@ -314,6 +324,11 @@ exercise_muscles.each do |exercise_muscle|
     ExerciseMuscle.create(exercise_id: exercise_muscle[:exercise_id], muscle_id: exercise_muscle[:muscle_id])
 end
 
-muscle_sub_muscle_groups.each do |muscle_sub_muscle_group|
-    MuscleSubMuscleGroup.create(muscle_id: muscle_sub_muscle_group[:muscle_id], sub_muscle_group_id: muscle_sub_muscle_group[:sub_muscle_group_id])
+exercise_muscle_groups.each do |exercise_muscle_group|
+    ExerciseMuscleGroup.create(exercise_id: exercise_muscle_group[:exercise_id], muscle_group_id: exercise_muscle_group[:muscle_group_id], primary: exercise_muscle_group[:primary])
 end
+
+exercise_sub_muscle_groups.each do |exercise_sub_muscle_group|
+    ExerciseSubMuscleGroup.create(exercise_id: exercise_sub_muscle_group[:exercise_id], sub_muscle_group_id: exercise_sub_muscle_group[:sub_muscle_group_id])
+end
+

@@ -10,16 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_24_195243) do
+ActiveRecord::Schema.define(version: 2020_11_30_164555) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "exercise_muscle_groups", force: :cascade do |t|
     t.bigint "exercise_id", null: false
-    t.bigint "muscle_group_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "muscle_group_id"
+    t.boolean "primary", default: false
     t.index ["exercise_id"], name: "index_exercise_muscle_groups_on_exercise_id"
     t.index ["muscle_group_id"], name: "index_exercise_muscle_groups_on_muscle_group_id"
   end
@@ -29,6 +30,7 @@ ActiveRecord::Schema.define(version: 2020_11_24_195243) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "muscle_id", null: false
+    t.boolean "primary", default: false
     t.index ["exercise_id"], name: "index_exercise_muscles_on_exercise_id"
     t.index ["muscle_id"], name: "index_exercise_muscles_on_muscle_id"
   end
@@ -38,6 +40,7 @@ ActiveRecord::Schema.define(version: 2020_11_24_195243) do
     t.bigint "sub_muscle_group_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.boolean "primary", default: false
     t.index ["exercise_id"], name: "index_exercise_sub_muscle_groups_on_exercise_id"
     t.index ["sub_muscle_group_id"], name: "index_exercise_sub_muscle_groups_on_sub_muscle_group_id"
   end
