@@ -1482,7 +1482,7 @@ exercise_sub_muscle_groups = [
 
 muscles = [
     { 1 name: "neck" },
-    { 2 name: "groin" }
+    { 2 name: "groin" },
     { 3 name: "front deltoid" }, 
     { 4 name: "lateral deltoid" },
     { 5 name: "rear deltoid" },     
@@ -1492,21 +1492,18 @@ muscles = [
     { 9 name: "wrist extensor" },
     { 10 name: "trapezius" },
     { 11 name: "latissimus dorsi" },
-    { 12 name: "pectoralis major" },
-    { 13 name: "pectoralis minor" }
-    { 14 name: "gluteus maximus" },
-    { 15 name: "adductors" },
-    { 16 name: "hip flexors" },    
-    { 17 name: "quadriceps" },
-    { 18 name: "hamstrings" },
-    { 19 name: "gastrocnemius" },
-    { 20 name: "tibialis anterior" },
-    { 21 name: "rectus abdominis" },
-    { 22 name: "obliques" },
-    { 23 name: "pectoralis major" },
-    { 24 name: "pectoralis minor" },
-    { 25 name: "erector spinae" },
-
+    { 12 name: "pectoralis" },
+    { 13 name: "gluteus maximus" },
+    { 14 name: "adductors" },
+    { 15 name: "hip flexors" },    
+    { 16 name: "quadriceps" },
+    { 17 name: "hamstrings" },
+    { 18 name: "gastrocnemius" },
+    { 19 name: "tibialis anterior" },
+    { 20 name: "rectus abdominis" },
+    { 21 name: "obliques" },
+    { 22 name: "erector spinae" },
+    { 23 name: "abductors" }
 ]
 
 exercise_muscles = [
