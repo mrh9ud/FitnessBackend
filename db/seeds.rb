@@ -822,13 +822,11 @@ exercise_sub_muscle_groups = [
     { exercise_id: 8, sub_muscle_group_id: 6, primary: true},
     { exercise_id: 8, sub_muscle_group_id: 7, primary: false},
     { exercise_id: 8, sub_muscle_group_id: 11, primary: false},
-    # Military Push-up not found
     { exercise_id: 9, sub_muscle_group_id: 4, primary: false},
     { exercise_id: 9, sub_muscle_group_id: 5, primary: true},
     { exercise_id: 9, sub_muscle_group_id: 6, primary: true},
     { exercise_id: 9, sub_muscle_group_id: 7, primary: false},
     { exercise_id: 9, sub_muscle_group_id: 11, primary: true},
-    # end
     { exercise_id: 10, sub_muscle_group_id: 4, primary: false},
     { exercise_id: 10, sub_muscle_group_id: 5, primary: true},
     { exercise_id: 10, sub_muscle_group_id: 6, primary: true},
@@ -1123,16 +1121,12 @@ exercise_sub_muscle_groups = [
     { exercise_id: 112, sub_muscle_group_id: 11, primary: false},
     { exercise_id: 112, sub_muscle_group_id: 12, primary: false},
     { exercise_id: 112, sub_muscle_group_id: 2, primary: true},
-    # Could not find Kneeling Single-Arm Curl
     { exercise_id: 113, sub_muscle_group_id: 11, primary: true},
     { exercise_id: 113, sub_muscle_group_id: 12, primary: false},
     { exercise_id: 113, sub_muscle_group_id: 7, primary: false},
     { exercise_id: 113, sub_muscle_group_id: 10, primary: false},
-    # end
-    # Could not find Towel Hammer Curl
     { exercise_id: 114, sub_muscle_group_id: 11, primary: true},
     { exercise_id: 114, sub_muscle_group_id: 12, primary: false},
-    # end
     { exercise_id: 115, sub_muscle_group_id: 11, primary: true},
     { exercise_id: 115, sub_muscle_group_id: 12, primary: false},
     { exercise_id: 116, sub_muscle_group_id: 11, primary: true},
@@ -1487,31 +1481,31 @@ exercise_sub_muscle_groups = [
 ]
 
 muscles = [
-    { name: "front deltoid" }, 
-    { name: "lateral deltoid" },
-    { name: "rear deltoid" },     
-    { name: "triceps" }, 
-    { name: "biceps" },
-    { name: "wrist flexor" }, 
-    { name: "wrist extensor" },
-    { name: "trapezius (traps)" },
-    { name: "latissimus dorsi (lats)" },
-    { name: "spinal erectors" },
-    { name: "pectoralis major" },
-    { name: "glutes" },
-    { name: "abductors" },
-    { name: "quadriceps" },
-    { name: "hamstrings" },
-    { name: "adductors" },
-    { name: "gastrocnemius" },
-    { name: "tibialis anterior" },
-    { name: "rectus abdominis" },
-    { name: "transverse abdominis" },
-    { name: "obliques" },
-    { name: "pectoralis major" },
-    { name: "pectoralis minor" },
-    { name: "serratus anterior" },
-    { name: "" },
+    { 1 name: "neck" },
+    { 2 name: "groin" }
+    { 3 name: "front deltoid" }, 
+    { 4 name: "lateral deltoid" },
+    { 5 name: "rear deltoid" },     
+    { 6 name: "triceps" }, 
+    { 7 name: "biceps" },
+    { 8 name: "wrist flexor" }, 
+    { 9 name: "wrist extensor" },
+    { 10 name: "trapezius" },
+    { 11 name: "latissimus dorsi" },
+    { 12 name: "pectoralis major" },
+    { 13 name: "pectoralis minor" }
+    { 14 name: "gluteus maximus" },
+    { 15 name: "adductors" },
+    { 16 name: "hip flexors" },    
+    { 17 name: "quadriceps" },
+    { 18 name: "hamstrings" },
+    { 19 name: "gastrocnemius" },
+    { 20 name: "tibialis anterior" },
+    { 21 name: "rectus abdominis" },
+    { 22 name: "obliques" },
+    { 23 name: "pectoralis major" },
+    { 24 name: "pectoralis minor" },
+    { 25 name: "erector spinae" },
 
 ]
 
