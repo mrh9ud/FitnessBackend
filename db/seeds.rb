@@ -2585,10 +2585,10 @@ exercise_muscles = [
 
 UserWorkout.destroy_all
 WorkoutExercise.destroy_all
+Workout.destroy_all
 ExerciseMuscle.destroy_all
 ExerciseMuscleGroup.destroy_all
 ExerciseSubMuscleGroup.destroy_all
-Workout.destroy_all
 Exercise.destroy_all
 MuscleGroup.destroy_all
 SubMuscleGroup.destroy_all
