@@ -2583,16 +2583,27 @@ exercise_muscles = [
     { exercise_id:  208, muscle_id: 18 }
 ]
 
-UserWorkout.destroy_all
-WorkoutExercise.destroy_all
-Workout.destroy_all
 ExerciseMuscle.destroy_all
+ActiveRecord::Base.connection.reset_pk_sequence!('exercise_muscles')
+
 ExerciseMuscleGroup.destroy_all
+ActiveRecord::Base.connection.reset_pk_sequence!('exercise_muscle_groups')
+
 ExerciseSubMuscleGroup.destroy_all
+ActiveRecord::Base.connection.reset_pk_sequence!('exercise_sub_muscle_groups')
+
 Exercise.destroy_all
+ActiveRecord::Base.connection.reset_pk_sequence!('exercises')
+
 MuscleGroup.destroy_all
+ActiveRecord::Base.connection.reset_pk_sequence!('muscle_groups')
+
 SubMuscleGroup.destroy_all
+ActiveRecord::Base.connection.reset_pk_sequence!('sub_muscle_groups')
+
 Muscle.destroy_all
+ActiveRecord::Base.connection.reset_pk_sequence!('muscles')
+
 
 exercises.each do |exercise|
     Exercise.create(name: exercise[:name], difficulty: exercise[:difficulty], instructions: exercise[:instructions], focus: exercise[:focus])
@@ -2603,7 +2614,7 @@ muscle_groups.each do |muscle_group|
 end
 
 sub_muscle_groups.each do |sub_muscle_group|
-    SubMuscleGroup.create(name: sub_muscle_group[:name], muscle_group_id: [sub_muscle_group[:muscle_group_id]])
+    SubMuscleGroup.create(name: sub_muscle_group[:name])
 end
 
 muscles.each do |muscle|
@@ -2611,7 +2622,11 @@ muscles.each do |muscle|
 end
 
 exercise_muscles.each do |exercise_muscle|
-    ExerciseMuscle.create(exercise_id: exercise_muscle[:exercise_id], muscle_id: exercise_muscle[:muscle_id], primary: exercise_muscle[:primary])
+    if exercise_muscle[:primary]
+        ExerciseMuscle.create(exercise_id: exercise_muscle[:exercise_id], muscle_id: exercise_muscle[:muscle_id], primary: exercise_muscle[:primary])
+    else
+        ExerciseMuscle.create(exercise_id: exercise_muscle[:exercise_id], muscle_id: exercise_muscle[:muscle_id])
+    end
 end
 
 exercise_muscle_groups.each do |exercise_muscle_group|
