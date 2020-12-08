@@ -19,23 +19,62 @@ class Exercise < ApplicationRecord
     validates :focus, inclusion: { in: %w(cardio strength flexibility str_cardio str_flex), message: "%{value} is not a valid exercise focus. Must be cardio, strength, flexibility, or a combination.", on: [:create, :update] }
     validates :focus, presence: { message: "An exercise must include a focus of strength, cardio, flexibility, or a combination." }
 
+    def self.exercises_by_focus(exercises, focus)
+      if !focus.empty? 
+        if focus.length == 1
+          exercises.where(focus: focus[0])
+        elsif focus.length == 2
+          if focus.includes('strength') && focus.includes('cardio')
+            exercises.where(focus: 'str_cardio')
+          elsif focus.includes('strength') && focus.includes('flexibility')
+            exercises.where(focus: 'str_flex')
+          else
+            exercises.where(focus: 'cardio_flex')
+          end
+        else focus.length == 3
+          exercises
+        end
+      else
+        exercises
+      end
+    end
+
+    def self.exercises_by_muscle_groups(exercises, muscle_groups)
+      if !muscle_groups.empty?
+        result = muscle_groups.map do |muscle_group|
+          exercises.includes(:exercise_muscle_groups).where(exercise_muscle_groups: { muscle_group_id: muscle_group[:id] })
+        end
+        result.flatten()
+      else
+        exercises
+      end
+    end
+
+    def self.exercises_by_name(search_term)
+      if !search_term.empty?
+        Exercise.where("LOWER(name) like LOWER(?)", "%#{search_term}%")
+      else
+        Exercise.all
+      end
+    end
+
     def self.str_exercises
-        Exercise.where(focus: 'strength')
+      Exercise.where(focus: 'strength')
     end
 
     def self.str_cardio_exercises
-        Exercise.where(focus: 'str_cardio')
+      Exercise.where(focus: 'str_cardio')
     end
 
     def self.cardio_exercises
-        Exercise.where(focus: 'cardio')
+      Exercise.where(focus: 'cardio')
     end
 
     def self.flexibility_exercises
-        Exercise.where(focus: 'flexibility')
+      Exercise.where(focus: 'flexibility')
     end
 
     def self.str_flex_exercises
-        Exercise.where(focus: 'str_flex')
+      Exercise.where(focus: 'str_flex')
     end
 end
