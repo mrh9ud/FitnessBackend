@@ -20,16 +20,10 @@ class Exercise < ApplicationRecord
     validates :focus, presence: { message: "An exercise must include a focus of strength, cardio, flexibility, or a combination." }
 
     def self.exercises_by_focus(exercises, focus)
-      if !focus.empty? || focus.length != 3
+      if !focus.empty? 
         if focus.length == 1
-          if focus[0] == 'strength'
-            exercises.where(focus: 'strength')
-          elsif focus[0] == 'cardio'
-            exercises.where(focus: 'cardio')
-          else
-            exercises.where(focus: 'flexibility')
-          end
-        else
+          exercises.where(focus: focus[0])
+        elsif focus.length == 2
           if focus.includes('strength') && focus.includes('cardio')
             exercises.where(focus: 'str_cardio')
           elsif focus.includes('strength') && focus.includes('flexibility')
@@ -37,17 +31,20 @@ class Exercise < ApplicationRecord
           else
             exercises.where(focus: 'cardio_flex')
           end
+        else focus.length == 3
+          exercises
         end
       else
         exercises
       end
     end
 
-    def exercises_by_muscle_groups(exercises, muscle_groups)
+    def self.exercises_by_muscle_groups(exercises, muscle_groups)
       if !muscle_groups.empty?
-        muscle_groups.each do |muscle_group|
-          exercises.includes(:exercise_muscle_groups).where(muscle_group_id: muscle_group.id)
+        result = muscle_groups.map do |muscle_group|
+          exercises.includes(:exercise_muscle_groups).where(exercise_muscle_groups: { muscle_group_id: muscle_group[:id] })
         end
+        result.flatten()
       else
         exercises
       end
