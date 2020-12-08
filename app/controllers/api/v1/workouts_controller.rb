@@ -26,7 +26,7 @@ class Api::V1::WorkoutsController < ApplicationController
   
   def generate_potential_workout
     focus_output = Workout.exercises_by_focus(workout_params)
-    target_output = Workout.exercises_filtered_by_muscle_group(focus_output, workout_params[:target])
+    target_output = Workout.exercises_filtered_by_muscle_group(focus_output, workout_params[:muscle_groups])
     workout_hash = Workout.exercises_filtered_by_difficulty(target_output, params[:workout][:difficulty])
     if workout_hash
       render json: workout_hash.as_json(except: [:created_at, :updated_at])
@@ -61,6 +61,6 @@ class Api::V1::WorkoutsController < ApplicationController
   private
 
   def workout_params
-    params.require(:workout).permit(:id, :name, :strength, :flexibility, :cardio, :duration, :difficulty, :target)
+    params.require(:workout).permit(:id, :name, :strength, :flexibility, :cardio, :duration, :difficulty, :muscle_groups => [])
   end
 end
