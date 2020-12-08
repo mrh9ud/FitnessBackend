@@ -52,4 +52,16 @@ class Workout < ApplicationRecord
         end
         result
     end
+
+    def self.exercises_filtered_by_muscle_group(exercises, muscle_groups)
+        target_muscle_groups = muscle_groups.map do |muscle_group|
+            MuscleGroup.find_by(name: muscle_group)
+        end
+        target_exercises = exercises.includes(:exercise_muscle_groups).where(exercise_muscle_groups: { muscle_group_id: target_muscle_groups[0].id, primary: true })
+        target_muscle_groups.each do |target_muscle_group|
+            target_exercises = target_exercises.or(exercises.includes(:exercise_muscle_groups).where(exercise_muscle_groups: { muscle_group_id: target_muscle_group.id, primary: true }))
+        end
+        potential_exercises = target_exercises
+        potential_exercises
+    end
 end
