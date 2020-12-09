@@ -1,16 +1,8 @@
 class Api::V1::ExercisesController < ApplicationController
-  def muscles_groups_sub_groups_muscles
-    render json: {
-      muscle_groups: MuscleGroup.all.as_json(only: [:id, :name]),
-      sub_muscle_groups: SubMuscleGroup.all.as_json(only: [:id, :name]),
-      muscles: Muscle.all.as_json(only: [:id, :name])
-    }
-  end
-
   def find_queried_exercises
     filtered_by_name = exercise_params[:search_query].empty? ? Exercise.all : Exercise.exercises_by_name(exercise_params[:search_query])
     filtered_by_focus = exercise_params[:focus].empty? ? filtered_by_name : Exercise.exercises_by_focus(filtered_by_name, exercise_params[:focus])
-    filtered_by_difficulty = exercise_params[:difficulty].empty? ? filtered_by_focus : filtered_by_focus.where(difficulty: exercise_params[:difficulty])
+    filtered_by_difficulty = exercise_params[:difficulty] == 'all' ? filtered_by_focus : filtered_by_focus.where(difficulty: exercise_params[:difficulty])
     filtered_by_muscle_groups = filtered_by_difficulty.exercises_by_muscle_groups(filtered_by_difficulty, exercise_params[:muscle_groups])
     exercise_id_primary_muscles = filtered_by_muscle_groups.includes(:exercise_muscle_groups, :muscle_groups)
                                                            .pluck("exercise_muscle_groups.exercise_id", "muscle_groups.name")

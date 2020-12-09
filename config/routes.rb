@@ -3,7 +3,6 @@ Rails.application.routes.draw do
     namespace :v1 do
 
       resources :exercises
-        get '/muscle_related_info', to: 'exercises#muscles_groups_sub_groups_muscles'
         post '/exercise_query', to: 'exercises#find_queried_exercises'
 
       resources :workouts, only: [:create, :update, :destroy]
