@@ -20,7 +20,11 @@ class Api::V1::ExercisesController < ApplicationController
       if filtered_by_focus.empty?
         render json: { exercises: [] }
       else
-        filtered_by_difficulty = filtered_by_focus.where(difficulty: exercise_params[:difficulty])
+        if exercise_params[:difficulty] == 'all'
+          filtered_by_difficulty = filtered_by_focus
+        else
+          filtered_by_difficulty = filtered_by_focus.where(difficulty: exercise_params[:difficulty])
+        end
         if filtered_by_difficulty.empty?
           render json: { exercises: [] }
         else
@@ -35,7 +39,7 @@ class Api::V1::ExercisesController < ApplicationController
             primary_muscle_groups.reject! { |muscle_group| muscle_group.nil? }
             primary_exercises.push({ id: exercise.id, muscle_group_name: primary_muscle_groups })            
           end
-          byebug
+          # byebug
           render json: { exercises: fully_filtered_exercises }
         end
       end
@@ -45,6 +49,6 @@ class Api::V1::ExercisesController < ApplicationController
   private
 
   def exercise_params
-    params.require(:exercise).permit(:difficulty, :search_query, :focus => [], :muscle_groups => [:id, :name], )
+    params.require(:exercise).permit(:id, :difficulty, :search_query, :focus => [], :muscle_groups => [:id, :name], )
   end
 end
