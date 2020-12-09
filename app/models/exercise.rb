@@ -24,9 +24,9 @@ class Exercise < ApplicationRecord
       if focus.length == 1
         exercises.where(focus: focus[0])
       elsif focus.length == 2
-        if focus.includes('strength') && focus.includes('cardio')
+        if focus.include?('strength') && focus.include?('cardio')
           exercises.where(focus: 'str_cardio')
-        elsif focus.includes('strength') && focus.includes('flexibility')
+        elsif focus.include?('strength') && focus.include?('flexibility')
           exercises.where(focus: 'str_flex')
         else
           exercises.where(focus: 'cardio_flex')
