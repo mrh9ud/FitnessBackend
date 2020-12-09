@@ -25,9 +25,18 @@ class Api::V1::ExercisesController < ApplicationController
           render json: { exercises: [] }
         else
           fully_filtered_exercises = filtered_by_difficulty.exercises_by_muscle_groups(filtered_by_difficulty, exercise_params[:muscle_groups])
-          render json: {
-            exercises: fully_filtered_exercises
-          }
+          primary_exercises = []
+          fully_filtered_exercises.map do |exercise|
+            primary_muscle_groups = exercise.exercise_muscle_groups.map do |exercise_muscle_group|
+              if exercise_muscle_group.primary
+                exercise_muscle_group.muscle_group.name
+              end
+            end
+            primary_muscle_groups.reject! { |muscle_group| muscle_group.nil? }
+            primary_exercises.push({ id: exercise.id, muscle_group_name: primary_muscle_groups })            
+          end
+          byebug
+          render json: { exercises: fully_filtered_exercises }
         end
       end
     end
