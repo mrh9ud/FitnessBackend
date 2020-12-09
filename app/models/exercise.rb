@@ -41,10 +41,11 @@ class Exercise < ApplicationRecord
 
   def self.exercises_by_muscle_groups(exercises, muscle_groups)
     if !muscle_groups.empty?
-      result = muscle_groups.map do |muscle_group|
-        exercises.includes(:exercise_muscle_groups).where(exercise_muscle_groups: { muscle_group_id: muscle_group[:id] })
+      result = exercises.includes(:exercise_muscle_groups).where(exercise_muscle_groups: { muscle_group_id: muscle_groups[0][:id]})
+      muscle_groups.each do |muscle_group|
+        result = result.or(exercises.includes(:exercise_muscle_groups).where(exercise_muscle_groups: { muscle_group_id: muscle_group[:id] }))
       end
-      result.flatten()
+      result
     else
       exercises
     end
@@ -52,7 +53,7 @@ class Exercise < ApplicationRecord
 
   def self.exercises_by_name(search_term)
     if !search_term.empty?
-      Exercise.where("LOWER(name) like LOWER(?)", "%#{search_term}%")
+      Exercise.where("LOWER(exercises.name) like LOWER(?)", "%#{search_term}%")
     else
       Exercise.all
     end
