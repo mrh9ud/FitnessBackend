@@ -1,7 +1,8 @@
 class Api::V1::WorkoutsController < ApplicationController
   
   def create
-    workout = Workout.create(workout_params)
+    sanitized_params = workout_params.tap { |key| key.delete(:muscle_groups) }
+    workout = Workout.create(sanitized_params)
     exercises = params[:exercises]
     if workout
       user_workout = UserWorkout.create(user_id: params[:user][:id], workout_id: workout.id)
