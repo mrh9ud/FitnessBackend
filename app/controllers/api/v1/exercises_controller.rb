@@ -5,6 +5,8 @@ class Api::V1::ExercisesController < ApplicationController
     filtered_by_difficulty = exercise_params[:difficulty] == 'all' ? filtered_by_focus : filtered_by_focus.where(difficulty: exercise_params[:difficulty])
     filtered_by_muscle_groups = filtered_by_difficulty.exercises_by_muscle_groups(filtered_by_difficulty, exercise_params[:muscle_groups])
 
+    
+
     filtered_exercise_ids = filtered_by_muscle_groups.pluck(:id)
     filtered_exercises = Exercise.find(filtered_exercise_ids)
     exercise_muscle_groups = []
@@ -55,6 +57,6 @@ class Api::V1::ExercisesController < ApplicationController
   private
 
   def exercise_params
-    params.require(:exercise).permit(:difficulty, :search_query, :focus => [], :muscle_groups => [:id, :name], )
+    params.require(:exercise).permit(:page_num, :difficulty, :search_query, :focus => [], :muscle_groups => [:id, :name], )
   end
 end

@@ -51,6 +51,10 @@ class Api::V1::WorkoutsController < ApplicationController
     }
   end
 
+  def create_own_workout
+    Workout.determine_workout_difficulty(params[:exercises])
+  end
+
   def destroy
     if Workout.destroy(params[:id])
       render json: { id: params[:id] }
