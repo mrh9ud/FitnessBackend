@@ -41,10 +41,12 @@ class Exercise < ApplicationRecord
 
   def self.exercises_by_muscle_groups(exercises, muscle_groups)
     if !muscle_groups.empty?
-      result = exercises.includes(:exercise_muscle_groups).where(exercise_muscle_groups: { muscle_group_id: muscle_groups[0][:id]})
+      target_exercises = exercises.includes(:exercise_muscle_groups).where(exercise_muscle_groups: { muscle_group_id: muscle_groups[0][:id]})
       muscle_groups.each do |muscle_group|
-        result = result.or(exercises.includes(:exercise_muscle_groups).where(exercise_muscle_groups: { muscle_group_id: muscle_group[:id] }))
+        target_exercises = target_exercises.or(exercises.includes(:exercise_muscle_groups).where(exercise_muscle_groups: { muscle_group_id: muscle_group[:id] }))
       end
+      ids = target_exercises.includes(:exercise_muscle_groups).pluck(:exercise_id).uniq
+      result = exercises.includes(:exercise_muscle_groups).where('exercise_muscle_groups.exercise_id' => ids)
       result
     else
       exercises

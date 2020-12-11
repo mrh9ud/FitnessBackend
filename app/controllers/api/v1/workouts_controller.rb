@@ -29,6 +29,7 @@ class Api::V1::WorkoutsController < ApplicationController
     focus_output = Workout.exercises_by_focus(workout_params)
     target_output = Workout.exercises_filtered_by_muscle_group(focus_output, workout_params[:muscle_groups])
     workout_hash = Workout.exercises_filtered_by_difficulty(target_output, params[:workout][:difficulty])
+    byebug
     if workout_hash
       render json: workout_hash.as_json(except: [:created_at, :updated_at])
     else
