@@ -9,36 +9,19 @@ class Api::V1::ExercisesController < ApplicationController
 
     filtered_exercise_ids = filtered_by_muscle_groups.pluck(:id)
     filtered_exercises = Exercise.find(filtered_exercise_ids)
-    exercise_muscle_groups = []
-    exercise_sub_muscle_groups = []
-    exercise_muscles = []
 
-    filtered_exercises.each do |filtered_exercise|
-      exercise_muscle_groups << filtered_exercise.exercise_muscle_groups
-      exercise_sub_muscle_groups << filtered_exercise.exercise_sub_muscle_groups
-      exercise_muscles << filtered_exercise.exercise_muscles
-    end
+    exercise_muscle_groups = ExerciseMuscleGroup.get_exercise_muscle_group_ids(filtered_exercises)
+    exercise_sub_muscle_groups = ExerciseSubMuscleGroup.get_exercise_sub_muscle_group_ids(filtered_exercises)
+    exercise_muscles = ExerciseMuscle.get_exercise_muscle_ids(filtered_exercises)
 
-    primary_muscle_groups_hash = {}
-    secondary_muscle_groups_hash = {}
-    primary_sub_muscle_groups_hash = {}
-    secondary_sub_muscle_groups_hash = {}
-    primary_muscles_hash = {}
-    secondary_muscles_hash = {}
-    exercise_muscle_groups.each do |exercise_muscle_group|
-      primary_muscle_groups_hash[exercise_muscle_group.pluck(:exercise_id).first] = exercise_muscle_group.where(primary: true).pluck(:muscle_group_id)
-      secondary_muscle_groups_hash[exercise_muscle_group.pluck(:exercise_id).first] = exercise_muscle_group.where(primary: false).pluck(:muscle_group_id)
-    end
+    primary_muscle_groups_hash = ExerciseMuscleGroup.get_exercise_primary_muscle_groups(exercise_muscle_groups)
+    secondary_muscle_groups_hash = ExerciseMuscleGroup.get_exercise_secondary_muscle_groups(exercise_muscle_groups)
 
-    exercise_sub_muscle_groups.each do |exercise_sub_muscle_group|
-      primary_sub_muscle_groups_hash[exercise_sub_muscle_group.pluck(:exercise_id).first] = exercise_sub_muscle_group.where(primary: true).pluck(:sub_muscle_group_id)
-      secondary_sub_muscle_groups_hash[exercise_sub_muscle_group.pluck(:exercise_id).first] = exercise_sub_muscle_group.where(primary: false).pluck(:sub_muscle_group_id)
-    end
+    primary_sub_muscle_groups_hash = ExerciseSubMuscleGroup.get_exercise_primary_sub_muscle_groups(exercise_sub_muscle_groups)
+    secondary_sub_muscle_groups_hash = ExerciseSubMuscleGroup.get_exercise_secondary_sub_muscle_groups(exercise_sub_muscle_groups)
 
-    exercise_muscles.each do |exercise_muscle|
-      primary_muscles_hash[exercise_muscle.pluck(:exercise_id).first] = exercise_muscle.where(primary: true).pluck(:muscle_id)
-      secondary_muscles_hash[exercise_muscle.pluck(:exercise_id).first] = exercise_muscle.where(primary: false).pluck(:muscle_id)
-    end
+    primary_muscles_hash = ExerciseMuscle.get_exercise_primary_muscles(exercise_muscles)
+    secondary_muscles_hash = ExerciseMuscle.get_exercise_secondary_muscles(exercise_muscles)
 
     fully_filtered_exercises = []
     primary_muscle_groups_hash.each do |key, value|
