@@ -14,21 +14,19 @@ class Api::V1::ExercisesController < ApplicationController
     end
 
     if !filtered_by_muscle_groups.empty?
-      filtered_by_muscle_groups = Exercise.exercises_by_muscle_groups(filtered_by_difficulty, exercise_params[:muscle_groups])
-
       exercise_muscle_groups = ExerciseMuscleGroup.get_exercise_muscle_group_ids(filtered_by_muscle_groups)
       exercise_sub_muscle_groups = ExerciseSubMuscleGroup.get_exercise_sub_muscle_group_ids(filtered_by_muscle_groups)
       exercise_muscles = ExerciseMuscle.get_exercise_muscle_ids(filtered_by_muscle_groups)
-
+  
       primary_muscle_groups_hash = ExerciseMuscleGroup.get_exercise_primary_muscle_groups(exercise_muscle_groups)
       secondary_muscle_groups_hash = ExerciseMuscleGroup.get_exercise_secondary_muscle_groups(exercise_muscle_groups)
-
+  
       primary_sub_muscle_groups_hash = ExerciseSubMuscleGroup.get_exercise_primary_sub_muscle_groups(exercise_sub_muscle_groups)
       secondary_sub_muscle_groups_hash = ExerciseSubMuscleGroup.get_exercise_secondary_sub_muscle_groups(exercise_sub_muscle_groups)
-
+  
       primary_muscles_hash = ExerciseMuscle.get_exercise_primary_muscles(exercise_muscles)
       secondary_muscles_hash = ExerciseMuscle.get_exercise_secondary_muscles(exercise_muscles)
-
+  
       fully_filtered_exercises = []
       primary_muscle_groups_hash.each do |key, value|
         exercise = Exercise.find(key).as_json
