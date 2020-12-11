@@ -5,8 +5,6 @@ class ExerciseSubMuscleGroup < ApplicationRecord
 
     def self.get_exercise_sub_muscle_group_ids(exercises_arr)
         exercise_sub_muscle_groups = []
-        primary_muscle_groups_hash = {}
-        secondary_muscle_groups_hash = {}
 
         exercises_arr.each do |exercise|
             exercise_sub_muscle_groups << exercise.exercise_sub_muscle_groups
