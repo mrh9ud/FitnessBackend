@@ -3,14 +3,11 @@ class Api::V1::ExercisesController < ApplicationController
     filtered_by_name = exercise_params[:search_query].empty? ? Exercise.all : Exercise.exercises_by_name(exercise_params[:search_query])
     filtered_by_focus = exercise_params[:focus].empty? ? filtered_by_name : Exercise.exercises_by_focus(filtered_by_name, exercise_params[:focus])
     filtered_by_difficulty = exercise_params[:difficulty] == 'all' ? filtered_by_focus : filtered_by_focus.where(difficulty: exercise_params[:difficulty])
-    filtered_by_muscle_groups = filtered_by_difficulty.exercises_by_muscle_groups(filtered_by_difficulty, exercise_params[:muscle_groups])
+    filtered_by_muscle_groups = Exercise.exercises_by_muscle_groups(filtered_by_difficulty, exercise_params[:muscle_groups])
 
-    filtered_exercise_ids = filtered_by_muscle_groups.pluck(:id)
-    filtered_exercises = Exercise.find(filtered_exercise_ids)
-
-    exercise_muscle_groups = ExerciseMuscleGroup.get_exercise_muscle_group_ids(filtered_exercises)
-    exercise_sub_muscle_groups = ExerciseSubMuscleGroup.get_exercise_sub_muscle_group_ids(filtered_exercises)
-    exercise_muscles = ExerciseMuscle.get_exercise_muscle_ids(filtered_exercises)
+    exercise_muscle_groups = ExerciseMuscleGroup.get_exercise_muscle_group_ids(filtered_by_muscle_groups)
+    exercise_sub_muscle_groups = ExerciseSubMuscleGroup.get_exercise_sub_muscle_group_ids(filtered_by_muscle_groups)
+    exercise_muscles = ExerciseMuscle.get_exercise_muscle_ids(filtered_by_muscle_groups)
 
     primary_muscle_groups_hash = ExerciseMuscleGroup.get_exercise_primary_muscle_groups(exercise_muscle_groups)
     secondary_muscle_groups_hash = ExerciseMuscleGroup.get_exercise_secondary_muscle_groups(exercise_muscle_groups)
