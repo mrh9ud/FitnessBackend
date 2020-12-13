@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_13_005702) do
+ActiveRecord::Schema.define(version: 2020_12_13_012226) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -35,6 +35,17 @@ ActiveRecord::Schema.define(version: 2020_12_13_005702) do
     t.index ["muscle_id"], name: "index_exercise_muscles_on_muscle_id"
   end
 
+  create_table "exercise_stats", force: :cascade do |t|
+    t.integer "time"
+    t.integer "reps"
+    t.integer "sets"
+    t.integer "weight"
+    t.bigint "exercise_id", null: false
+    t.bigint "workout_id", null: false
+    t.index ["exercise_id"], name: "index_exercise_stats_on_exercise_id"
+    t.index ["workout_id"], name: "index_exercise_stats_on_workout_id"
+  end
+
   create_table "exercise_sub_muscle_groups", force: :cascade do |t|
     t.bigint "exercise_id", null: false
     t.bigint "sub_muscle_group_id", null: false
@@ -54,6 +65,10 @@ ActiveRecord::Schema.define(version: 2020_12_13_005702) do
     t.string "video_url"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.boolean "weighted", default: false
+    t.boolean "setted", default: false
+    t.boolean "timed", default: false
+    t.boolean "repeated", default: false
   end
 
   create_table "muscle_groups", force: :cascade do |t|
@@ -98,17 +113,6 @@ ActiveRecord::Schema.define(version: 2020_12_13_005702) do
     t.boolean "resetting_password", default: false
   end
 
-  create_table "workout_exercise_stats", force: :cascade do |t|
-    t.integer "time"
-    t.integer "reps"
-    t.integer "sets"
-    t.integer "weight"
-    t.bigint "exercise_id", null: false
-    t.bigint "workout_id", null: false
-    t.index ["exercise_id"], name: "index_workout_exercise_stats_on_exercise_id"
-    t.index ["workout_id"], name: "index_workout_exercise_stats_on_workout_id"
-  end
-
   create_table "workout_exercises", force: :cascade do |t|
     t.bigint "exercise_id", null: false
     t.bigint "workout_id", null: false
@@ -133,12 +137,12 @@ ActiveRecord::Schema.define(version: 2020_12_13_005702) do
   add_foreign_key "exercise_muscle_groups", "muscle_groups"
   add_foreign_key "exercise_muscles", "exercises"
   add_foreign_key "exercise_muscles", "muscles"
+  add_foreign_key "exercise_stats", "exercises"
+  add_foreign_key "exercise_stats", "workouts"
   add_foreign_key "exercise_sub_muscle_groups", "exercises"
   add_foreign_key "exercise_sub_muscle_groups", "sub_muscle_groups"
   add_foreign_key "user_workouts", "users"
   add_foreign_key "user_workouts", "workouts"
-  add_foreign_key "workout_exercise_stats", "exercises"
-  add_foreign_key "workout_exercise_stats", "workouts"
   add_foreign_key "workout_exercises", "exercises"
   add_foreign_key "workout_exercises", "workouts"
 end
