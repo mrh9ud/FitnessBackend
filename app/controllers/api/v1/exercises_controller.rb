@@ -38,9 +38,9 @@ class Api::V1::ExercisesController < ApplicationController
         exercise[:secondary_muscles] = Muscle.find(secondary_muscles_hash[key]).pluck(:name)
         fully_filtered_exercises << exercise
       end
-      render json: { exercises: fully_filtered_exercises }
+      render json: { exercises: fully_filtered_exercises, more_exercises: true }
     else
-      render json: { exercises: [] }
+      render json: { exercises: [], more_exercises: false }
     end
   end
 
