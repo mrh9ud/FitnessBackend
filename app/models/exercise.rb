@@ -7,6 +7,10 @@ class Exercise < ApplicationRecord
   has_many :muscles, through: :exercise_muscles
   has_many :exercise_sub_muscle_groups
   has_many :sub_muscle_groups, through: :exercise_sub_muscle_groups
+  has_many :exercise_weight_stats
+  has_many :exercise_time_stats
+  has_many :weight_sets, through: :exercise_weight_stats
+  has_many :time_sets, through: :exercise_time_stats
 
   validates :name, uniqueness: { case_sensitive: false, message: "The exercise %{value} already exists", on: [:create, :update] }
   validates :name, presence: { message: "Exercise name must be provided" }, on: [:create, :update]
