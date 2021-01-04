@@ -8,26 +8,30 @@ class Workout < ApplicationRecord
   validates :name, length: { in: 3..30, message: "Workout name must be between 3 and 30 characters." }
 
   def self.determine_workout_difficulty(exercises)
-    difficulty_hash = { 'beginner': 0, 'intermediate': 0, 'advanced': 0 }
+    difficulty_arr = [0, 0, 0]
     exercises.each do |exercise|
-      case exercise.difficulty
+      case exercise[:difficulty]
       when 'beginner'
-        difficulty_hash[:beginner] += 1
+        difficulty_arr[0] += 2
       when 'intermediate'
-        difficulty_hash[:intermediate] += 1
+        difficulty_arr[1] += 4
       when 'advanced'
-        difficulty_hash[:advanced] += 1
+        difficulty_arr[2] += 5
       end
     end
-    sum = difficulty_hash[:beginner] + difficulty_hash[:intermediate] + difficulty_hash[:advanced]
-    if difficulty_hash[:beginner]/sum >= (2/3)
+
+    if difficulty_arr[0] > difficulty_arr[1] && difficulty_arr[0] > difficulty_arr[2]
       'beginner'
-    elsif difficulty_hash[:intermediate]/sum >= (2/3)
+    elsif difficulty_arr[1] >= difficulty_arr[0] && difficulty_arr[1] > difficulty_arr[2]
       'intermediate'
-    elsif difficulty_hash[:advanced]/sum >= (2/3)
+    elsif difficulty_arr[2] >= difficulty_arr[0] && difficulty_arr[2] >= difficulty_arr[1]
       'advanced'
     end
-      
+  end
+
+  def self.determine_workout_focus(exercises)
+
+
   end
 
   def self.exercises_by_focus(workout_params)

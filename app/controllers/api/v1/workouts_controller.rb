@@ -52,7 +52,10 @@ class Api::V1::WorkoutsController < ApplicationController
   end
 
   def create_own_workout
-    Workout.determine_workout_difficulty(params[:exercises])
+    difficulty = Workout.determine_workout_difficulty(params[:workout][:exercises])
+    puts difficulty
+    focus = Workout.determine_workout_focus(params[:workout][:exercises])
+
   end
 
   def destroy
