@@ -2598,7 +2598,7 @@ Muscle.destroy_all
 ActiveRecord::Base.connection.reset_pk_sequence!('muscles')
 
 exercises.each do |exercise|
-  Exercise.create(name: exercise[:name], difficulty: exercise[:difficulty], instructions: exercise[:instructions], focus: exercise[:focus])
+  Exercise.create(name: exercise[:name], difficulty: exercise[:difficulty], instructions: exercise[:instructions], focus: exercise[:focus], weighted: exercise[:weighted] ? exercise[:weighted] : false, setted: exercise[:setted] ? exercise[:setted] : false, timed: exercise[:timed] ? exercise[:timed] : false)
 end
 
 muscle_groups.each do |muscle_group|

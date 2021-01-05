@@ -66,6 +66,6 @@ class Api::V1::WorkoutsController < ApplicationController
   private
 
   def workout_params
-    params.require(:workout).permit(:id, :name, :strength, :flexibility, :cardio, :duration, :difficulty, :muscle_groups => [])
+    params.require(:workout).permit(:id, :name, :strength, :flexibility, :cardio, :difficulty, :muscle_groups => [])
   end
 end

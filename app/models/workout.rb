@@ -69,7 +69,6 @@ class Workout < ApplicationRecord
           workout_hash[:id] = workout.id
           workout_hash[:name] = workout.name
           workout_hash[:difficulty] = workout.difficulty
-          workout_hash[:duration] = workout.duration
           workout_hash[:strength] = workout.strength
           workout_hash[:cardio] = workout.cardio
           workout_hash[:flexibility] = workout.flexibility
