@@ -3,6 +3,10 @@ class Workout < ApplicationRecord
   has_many :users, through: :user_workouts, dependent: :destroy
   has_many :workout_exercises
   has_many :exercises, through: :workout_exercises, dependent: :destroy
+  has_many :exercise_weight_stats
+  has_many :exercise_time_stats
+  has_many :weight_sets, through: :exercise_weight_stats, dependent: :destroy
+  has_many :time_sets, through: :exercise_time_stats, dependent: :destroy
 
   validates :name, presence: { message: "Workout name must be present."}, on: [:create, :update]
   validates :name, length: { in: 3..30, message: "Workout name must be between 3 and 30 characters." }
@@ -87,20 +91,19 @@ class Workout < ApplicationRecord
   end
 
   def self.find_workout_exercises(workouts_arr, id)
-    result = workouts_arr.map do |workout|
-      workout_hash = {}
-      workout_hash[:id] = workout.id
-      workout_hash[:name] = workout.name
-      workout_hash[:difficulty] = workout.difficulty
-      workout_hash[:duration] = workout.duration
-      workout_hash[:strength] = workout.strength
-      workout_hash[:cardio] = workout.cardio
-      workout_hash[:flexibility] = workout.flexibility
-      workout_hash[:completed] = workout.user_workouts.find_by(user_id: id).completed
-      workout_hash[:exercises] = workout.exercises
-      workout_hash
-    end
-    result
+      result = workouts_arr.map do |workout|
+          workout_hash = {}
+          workout_hash[:id] = workout.id
+          workout_hash[:name] = workout.name
+          workout_hash[:difficulty] = workout.difficulty
+          workout_hash[:strength] = workout.strength
+          workout_hash[:cardio] = workout.cardio
+          workout_hash[:flexibility] = workout.flexibility
+          workout_hash[:completed] = workout.user_workouts.find_by(user_id: id).completed
+          workout_hash[:exercises] = workout.exercises
+          workout_hash
+      end
+      result
   end
 
   def self.exercises_filtered_by_muscle_group(exercises, muscle_groups)
