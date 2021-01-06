@@ -5,6 +5,7 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+
 beginner = 'beginner'
 intermediate = 'intermediate'
 advanced = 'advanced'
@@ -16,7 +17,7 @@ str_cardio = 'str_cardio'
 str_flex = 'str_flex'
 
 exercises = [
-    {name: 'Barbell Bench Press', difficulty: beginner, instructions: 'Setup. Lie on the flat bench with your eyes under the bar. Grab the bar. Put your pinky on the ring marks of your bar. Unrack. Take a big breath and unrack the bar by straightening your arms. Lower the bar. Lower it to your mid-chest while tucking your elbows 75°. Press.', focus: strength, weighted: true, setted: true, repeated: true}, 
+    {name: 'Barbell Bench Press', difficulty: beginner, instructions: 'Setup. Lie on the flat bench with your eyes under the bar. Grab the bar. Put your pinky on the ring marks of your bar. Unrack. Take a big breath and unrack the bar by straightening your arms. Lower the bar. Lower it to your mid-chest while tucking your elbows 75°. Press.', focus: strength, weighted: true, setted: true, repeated: true},
     {name: 'Incline Barbell Bench Press', difficulty: intermediate, instructions: 'Lie flat on an incline bench at 45 degrees and set your hands just outside of shoulder width. Set your shoulder blades by pinching them together and driving them into the bench. Take a deep breath and allow your spotter to help you with the lift off in order to maintain tightness through your upper back. Let the weight settle and ensure your upper back remains tight after lift off. Inhale and allow the bar to descend slowly by unlocking the elbows. Lower the bar in a straight line to the base of the sternum (breastbone) and touch the chest. Push the bar back up in a straight line by pressing yourself into the bench, driving your feet into the floor for leg drive, and extending the elbows.', focus: strength, weighted: true, setted: true, repeated: true},
     {name: 'Dumbbell Bench Press', difficulty: beginner, instructions: 'Pick up the dumbbells off the floor using a neutral grip (palms facing in). Position the ends of the dumbbells in your hip crease, and sit down on the bench. To get into position, lay back and keep the weights close to your chest. Once you are in position, take a deep breath, and press the dumbbells to lockout at the top. Slowly lower the dumbbells under control as far as comfortably possible (the handles should be about level with your chest). Contract the chest and push the dumbbells back up to the starting position.', focus: strength, weighted: true, setted: true, repeated: true},
     {name: 'Dumbbell Flye', difficulty: beginner, instructions: 'Pick up the dumbbells off the floor using a neutral grip (palms facing in). Position the ends of the dumbbells in your hip crease, and sit down on the bench. To get into position, lay back and keep the weights close to your chest. Once you are in position, take a deep breath, and press the dumbbells to lockout at the top. Slowly lower the dumbbells under control as far as comfortably possible (the handles should be about level with your chest). Contract the chest and push the dumbbells back up to the starting position.', focus: strength, weighted: true, setted: true, repeated: true},

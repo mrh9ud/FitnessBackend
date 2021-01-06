@@ -2,20 +2,9 @@ class Api::V1::WorkoutsController < ApplicationController
   
   def create
     sanitized_params = workout_params.tap { |key| key.delete(:muscle_groups) }
-    workout = Workout.create(sanitized_params)
-    exercises = params[:exercises]
-    if workout
-      user_workout = UserWorkout.create(user_id: params[:user][:id], workout_id: workout.id)
-      exercises.map do |exercise|
-        WorkoutExercise.create(exercise_id: exercise[:id], workout_id: workout.id)
-      end
-      workout_display = Workout.workout_info_to_display(workout.id, workout_params, user_workout)
-      render json: workout_display
-    else
-      render json: { error: true, message: "Server Error: Couldn't Create Workout" }
-    end
+    create_workout(sanitized_params)
   end
-  
+
   def update
     workout = Workout.find(workout_params[:id])
     if workout && workout.update(name: workout_params[:name])
@@ -52,10 +41,16 @@ class Api::V1::WorkoutsController < ApplicationController
   end
 
   def create_own_workout
-    difficulty = Workout.determine_workout_difficulty(params[:workout][:exercises])
-    puts difficulty
-    focus = Workout.determine_workout_focus(params[:workout][:exercises])
-
+    difficulty = Workout.determine_workout_difficulty(params[:exercises])
+    focus = Workout.determine_workout_focus(params[:exercises])
+    workout_hash = {
+      name: params[:workout][:name],
+      difficulty: difficulty,
+      strength: focus[0],
+      cardio: focus[1],
+      flexibility: focus[2]
+    }
+    create_workout(workout_hash)
   end
 
   def destroy
@@ -67,6 +62,21 @@ class Api::V1::WorkoutsController < ApplicationController
   end
 
   private
+
+  def create_workout(workout_hash)
+    workout = Workout.create(workout_hash)
+    exercises = params[:exercises]
+    if workout
+      user_workout = UserWorkout.create(user_id: params[:user][:id], workout_id: workout.id)
+      exercises.map do |exercise|
+        WorkoutExercise.create(exercise_id: exercise[:id], workout_id: workout.id)
+      end
+      workout_display = Workout.workout_info_to_display(workout.id, workout_hash, user_workout)
+      render json: workout_display
+    else
+      render json: { error: true, message: "Server Error: Couldn't Create Workout" }
+    end
+  end
 
   def workout_params
     params.require(:workout).permit(:id, :name, :strength, :flexibility, :cardio, :duration, :difficulty, :muscle_groups => [])

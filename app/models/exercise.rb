@@ -62,22 +62,50 @@ class Exercise < ApplicationRecord
   end
 
   def self.str_exercises
-    Exercise.where(focus: 'strength')
+    Exercise.where(focus: Exercise.str)
   end
 
   def self.str_cardio_exercises
-    Exercise.where(focus: 'str_cardio')
+    Exercise.where(focus: Exercise.str_cardio)
   end
 
   def self.cardio_exercises
-    Exercise.where(focus: 'cardio')
+    Exercise.where(focus: Exercise.cardio)
   end
 
   def self.flexibility_exercises
-    Exercise.where(focus: 'flexibility')
+    Exercise.where(focus: Exercise.flex)
   end
 
   def self.str_flex_exercises
-    Exercise.where(focus: 'str_flex')
+    Exercise.where(focus: Exercise.str_flex)
+  end
+
+  def self.str
+    'strength'
+  end
+
+  def self.cardio
+    'cardio'
+  end
+
+  def self.flex
+    'flexibility'
+  end
+
+  def self.str_cardio
+    'str_cardio'
+  end
+
+  def self.str_flex
+    'str_flex'
+  end
+
+  def self.cardio_flex
+    'cardio_flex'
+  end
+
+  def self.str_cardio_flex
+    'str_cardio_flex'
   end
 end
