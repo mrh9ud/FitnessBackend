@@ -38,16 +38,16 @@ class Workout < ApplicationRecord
     threshold = 0.33
     exercises.each do |exercise|
       case exercise[:focus]
-      when 'strength'
+      when Exercise.strength
         focus_arr_total[0] += 1.0
-      when 'cardio'
+      when Exercise.cardio
         focus_arr_total[1] += 1.0
-      when 'flexibility'
+      when Exercise.flexibility
         focus_arr_total[2] += 1.0
-      when 'str_cardio'
+      when Exercise.str_cardio
         focus_arr_total[0] += 0.5
         focus_arr_total[1] += 0.5
-      when 'str_flex'
+      when Exercise.str_flex
         focus_arr_total[0] += 0.5
         focus_arr_total[2] += 0.5
       end

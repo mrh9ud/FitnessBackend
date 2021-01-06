@@ -26,12 +26,12 @@ class Exercise < ApplicationRecord
       if focus.length == 1
         exercises.where(focus: focus[0])
       elsif focus.length == 2
-        if focus.include?('strength') && focus.include?('cardio')
-          exercises.where(focus: 'str_cardio')
-        elsif focus.include?('strength') && focus.include?('flexibility')
-          exercises.where(focus: 'str_flex')
+        if focus.include?(Exercise.strength) && focus.include?(Exercise.cardio)
+          exercises.where(focus: Exercise.str_cardio)
+        elsif focus.include?(Exercise.strength) && focus.include?(Exercise.flexibility)
+          exercises.where(focus: Exercise.str_flex)
         else
-          exercises.where(focus: 'cardio_flex')
+          exercises.where(focus: Exercise.cardio_flex)
         end
       else focus.length == 3
         exercises
@@ -64,7 +64,7 @@ class Exercise < ApplicationRecord
   end
 
   def self.str_exercises
-    Exercise.where(focus: Exercise.str)
+    Exercise.where(focus: Exercise.strength)
   end
 
   def self.str_cardio_exercises
@@ -76,14 +76,14 @@ class Exercise < ApplicationRecord
   end
 
   def self.flexibility_exercises
-    Exercise.where(focus: Exercise.flex)
+    Exercise.where(focus: Exercise.flexibility)
   end
 
   def self.str_flex_exercises
     Exercise.where(focus: Exercise.str_flex)
   end
 
-  def self.str
+  def self.strength
     'strength'
   end
 
@@ -91,7 +91,7 @@ class Exercise < ApplicationRecord
     'cardio'
   end
 
-  def self.flex
+  def self.flexibility
     'flexibility'
   end
 
