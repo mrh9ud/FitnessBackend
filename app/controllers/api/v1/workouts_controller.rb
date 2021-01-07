@@ -61,6 +61,45 @@ class Api::V1::WorkoutsController < ApplicationController
     end
   end
 
+  def complete_workout
+    workout_to_update = Workout.find(params[:workout][:id]).update(completed: true)
+    params[:workout][:exercises].map do |exercise|
+      if exercise[:stats]
+        exercise[:stats].map do |stat|
+          if
+          stat.key?('weight') && stat.key?('time') && stat.key?('reps')
+            exercise_weight_stat = ExerciseWeightStat.create(exercise_id: exercise[:id], workout_id: params[:workout][:id])
+            exercise_time_stat = ExerciseTimeStat.create(exercise_id: exercise[:id], workout_id: params[:workout][:id])
+            WeightSet.create(exercise_weight_stat_id: exercise_weight_stat.id, weight: stat[:weight], reps: stat[:reps])
+            TimeSet.create(exercise_time_stat_id: exercise_time_stat, time: stat[:time], reps: stat[:reps])
+          elsif stat.key?('weight') && stat.key?('time')
+            exercise_weight_stat = ExerciseWeightStat.create(exercise_id: exercise[:id], workout_id: params[:workout][:id])
+            exercise_time_stat = ExerciseTimeStat.create(exercise_id: exercise[:id], workout_id: params[:workout][:id])
+            WeightSet.create(exercise_weight_stat_id: exercise_weight_stat.id, weight: stat[:weight])
+            TimeSet.create(exercise_time_stat_id: exercise_time_stat.id, time: stat[:time])
+          elsif stat.key?('time') && stat.key?('reps')
+            exercise_time_stat = ExerciseTimeStat.create(exercise_id: exercise[:id], workout_id: params[:workout][:id])
+            TimeSet.create(exercise_time_stat_id: exercise_time_stat.id, reps: stat[:reps], time: stat[:time])
+          elsif stat.key?('weight') && stat.key?('reps')
+            exercise_weight_stat = ExerciseWeightStat.create(exercise_id: exercise[:id], workout_id: params[:workout][:id])
+            WeightSet.create(exercise_weight_stat_id: exercise_weight_stat.id, weight: stat[:weight], reps: stat[:reps])
+          elsif stat.key?('weight')
+            exercise_weight_stat = ExerciseWeightStat.create(exercise_id: exercise[:id], workout_id: params[:workout][:id])
+            WeightSet.create(exercise_weight_stat_id: exercise_weight_stat.id, weight: stat[:weight])
+          elsif stat.key?('time')
+            exercise_time_stat = ExerciseTimeStat.create(exercise_id: exercise[:id], workout_id: params[:workout][:id])
+            TimeSet.create(exercise_time_stat_id: exercise_time_stat.id, time: stat[:time])
+          elsif stat.key?('reps')
+            exercise_rep_stat = ExerciseRepStat.create(exercise_id: exercise[:id], workout_id: params[:workout][:id])
+            RepSet.create(exercise_rep_stat_id: exercise_rep_stat.id, reps: stat[:reps])
+          else
+            "No values inside of your stats!"
+          end
+        end
+      end
+    end
+  end
+
   private
 
   def create_workout(workout_hash)
@@ -71,7 +110,7 @@ class Api::V1::WorkoutsController < ApplicationController
       exercises.map do |exercise|
         WorkoutExercise.create(exercise_id: exercise[:id], workout_id: workout.id)
       end
-      workout_display = Workout.workout_info_to_display(workout.id, workout_hash, user_workout)
+      workout_display = Workout.workout_info_to_display(workout.id, workout_hash)
       render json: workout_display
     else
       render json: { error: true, message: "Server Error: Couldn't Create Workout" }
