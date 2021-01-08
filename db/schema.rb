@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_05_202353) do
+ActiveRecord::Schema.define(version: 2021_01_07_222646) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -33,6 +33,13 @@ ActiveRecord::Schema.define(version: 2021_01_05_202353) do
     t.boolean "primary", default: false
     t.index ["exercise_id"], name: "index_exercise_muscles_on_exercise_id"
     t.index ["muscle_id"], name: "index_exercise_muscles_on_muscle_id"
+  end
+
+  create_table "exercise_rep_stats", force: :cascade do |t|
+    t.bigint "exercise_id", null: false
+    t.bigint "workout_id", null: false
+    t.index ["exercise_id"], name: "index_exercise_rep_stats_on_exercise_id"
+    t.index ["workout_id"], name: "index_exercise_rep_stats_on_workout_id"
   end
 
   create_table "exercise_sub_muscle_groups", force: :cascade do |t|
@@ -84,6 +91,12 @@ ActiveRecord::Schema.define(version: 2021_01_05_202353) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "rep_sets", force: :cascade do |t|
+    t.integer "reps"
+    t.bigint "exercise_rep_stat_id", null: false
+    t.index ["exercise_rep_stat_id"], name: "index_rep_sets_on_exercise_rep_stat_id"
+  end
+
   create_table "sub_muscle_groups", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", precision: 6, null: false
@@ -100,7 +113,6 @@ ActiveRecord::Schema.define(version: 2021_01_05_202353) do
   create_table "user_workouts", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "workout_id", null: false
-    t.boolean "completed", default: false, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["user_id"], name: "index_user_workouts_on_user_id"
@@ -145,6 +157,8 @@ ActiveRecord::Schema.define(version: 2021_01_05_202353) do
     t.boolean "strength", default: false, null: false
     t.boolean "cardio", default: false, null: false
     t.string "name"
+    t.boolean "completed", default: false, null: false
+    t.datetime "date_completed"
   end
 
   add_foreign_key "exercise_muscle_groups", "exercises"
@@ -157,6 +171,7 @@ ActiveRecord::Schema.define(version: 2021_01_05_202353) do
   add_foreign_key "exercise_time_stats", "workouts"
   add_foreign_key "exercise_weight_stats", "exercises"
   add_foreign_key "exercise_weight_stats", "workouts"
+  add_foreign_key "rep_sets", "exercise_rep_stats"
   add_foreign_key "time_sets", "exercise_time_stats"
   add_foreign_key "user_workouts", "users"
   add_foreign_key "user_workouts", "workouts"

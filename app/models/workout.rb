@@ -7,6 +7,8 @@ class Workout < ApplicationRecord
   has_many :exercise_time_stats
   has_many :weight_sets, through: :exercise_weight_stats, dependent: :destroy
   has_many :time_sets, through: :exercise_time_stats, dependent: :destroy
+  has_many :exercise_rep_stats
+  has_many :rep_sets, through: :exercise_rep_stats, dependent: :destroy
 
   validates :name, presence: { message: "Workout name must be present."}, on: [:create, :update]
   validates :name, length: { in: 3..30, message: "Workout name must be between 3 and 30 characters." }
@@ -81,12 +83,13 @@ class Workout < ApplicationRecord
     workout_hash
   end
 
-  def self.workout_info_to_display(id, workout_params, user_workout)
+  def self.workout_info_to_display(id, workout_params)
+    workout = self.find(id)
     workout_hash = {}
     workout_hash[:id] = id
     workout_hash.merge!(workout_params)
-    workout_hash[:completed] = user_workout.completed
-    workout_hash[:exercises] = self.find(id).exercises
+    workout_hash[:completed] = workout.completed
+    workout_hash[:exercises] = workout.exercises
     workout_hash
   end
 
@@ -99,7 +102,7 @@ class Workout < ApplicationRecord
           workout_hash[:strength] = workout.strength
           workout_hash[:cardio] = workout.cardio
           workout_hash[:flexibility] = workout.flexibility
-          workout_hash[:completed] = workout.user_workouts.find_by(user_id: id).completed
+          workout_hash[:completed] = workout.completed
           workout_hash[:exercises] = workout.exercises
           workout_hash
       end

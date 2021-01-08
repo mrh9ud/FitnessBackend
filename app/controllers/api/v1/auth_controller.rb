@@ -9,7 +9,7 @@ class Api::V1::AuthController < ApplicationController
             }
          elsif user.authenticate(params[:password])
             token = encode(user_id: user.id)
-            workout_display_arr = Workout.find_workout_exercises(user.workouts, user.id)
+            workout_display_arr = Workout.find_workout_exercises(user.workouts.where(completed: false), user.id)
             render json: {
                user: { id: user.id, username: user.username, first_name: user.first_name, last_name: user.last_name, email: user.email, resetting_password: user.resetting_password},
                workouts: workout_display_arr,

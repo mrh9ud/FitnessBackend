@@ -9,6 +9,7 @@ Rails.application.routes.draw do
         post '/swap_workout_exercise', to: 'workouts#swap_workout_exercise'
         post '/generate_potential_workout', to: 'workouts#generate_potential_workout'
         post '/create_own_workout', to: 'workouts#create_own_workout'
+        post '/complete_workout', to: 'workouts#complete_workout'
 
       resources :users do
         member do
