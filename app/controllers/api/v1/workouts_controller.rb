@@ -66,8 +66,7 @@ class Api::V1::WorkoutsController < ApplicationController
     params[:workout][:exercises].map do |exercise|
       if exercise[:stats]
         exercise[:stats].map do |stat|
-          if
-          stat.key?('weight') && stat.key?('time') && stat.key?('reps')
+          if stat.key?('weight') && stat.key?('time') && stat.key?('reps')
             exercise_weight_stat = ExerciseWeightStat.create(exercise_id: exercise[:id], workout_id: params[:workout][:id])
             exercise_time_stat = ExerciseTimeStat.create(exercise_id: exercise[:id], workout_id: params[:workout][:id])
             WeightSet.create(exercise_weight_stat_id: exercise_weight_stat.id, weight: stat[:weight], reps: stat[:reps])
@@ -98,6 +97,7 @@ class Api::V1::WorkoutsController < ApplicationController
         end
       end
     end
+    render json: { message: "Saving stats successful" }
   end
 
   private
