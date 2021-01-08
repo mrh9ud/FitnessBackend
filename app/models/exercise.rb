@@ -1,6 +1,6 @@
 class Exercise < ApplicationRecord
   has_many :workout_exercises
-  has_many :workouts, through: :workout_exercises
+  has_many :workouts, through: :workout_exercises, dependent: :destroy
   has_many :exercise_muscle_groups
   has_many :muscle_groups, through: :exercise_muscle_groups
   has_many :exercise_muscles
